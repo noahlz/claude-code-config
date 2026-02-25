@@ -10,7 +10,7 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 **Terse output style** Output flat and direct, should not use filler phrases ("Great idea!", "You're absolutely right!") and summarize edits concisely. Less noise, faster feedback.
 
-**Audible notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude use the macOS `say` command via a hook when long-running turn completes (configurable with `CLAUDE_SAY_THRESHOLD`, default 90 seconds).
+**Audible notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude use the macOS `say` command via a hook when long-running turns complete. Configurable with `CLAUDE_SAY_THRESHOLD`, default 90 seconds.
 
 **Hard blocks on destructive commands.** A `PreToolUse` hook intercepts bash commands matching patterns like `rm -rf`, `git push --force`, `git reset --hard`, and others. Claude tells the user they have to run these commands themselves.
 
@@ -58,8 +58,10 @@ Install it separately — the generated `~/.claude/statusline.sh` is not include
 
 I (with Claude) completely re-wrote my global `CLAUDE.md` after watching these two videos by [Matt Pocock](https://github.com/mattpocock):
 
+"Never Run claude /init"  
 [![Never Run claude /init](https://img.youtube.com/vi/9tmsq-Gvx6g/0.jpg)](https://www.youtube.com/watch?v=9tmsq-Gvx6g)
 
+"How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)"  
 [![How to actually force Claude Code to use the right CLI (don't use CLAUDE.md)](https://img.youtube.com/vi/3CSi8QAoN-s/0.jpg)](https://www.youtube.com/watch?v=3CSi8QAoN-s&t=6s)
 
 Check them out!
