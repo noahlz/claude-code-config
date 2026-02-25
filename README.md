@@ -8,7 +8,7 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 **Use hooks over instructions.** Hard rules belong in hooks, not prose. Hooks are enforced mechanically. Instructions are mere suggestions that waste context (and tokens!).
 
-**Terse output style** Output flat and direct, should not use filler phrases ("Great idea!", "You're absolutely right!") and summarize edits concisely. Less noise, faster feedback.
+**Terse output style** Output flat and direct language, don't use filler phrases ("Great idea!", "You're absolutely right!") and summarize edits concisely. Less noise, faster feedback.
 
 **Audible notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude use the macOS `say` command via a hook when long-running turns complete. Configurable with `CLAUDE_SAY_THRESHOLD`, default 90 seconds.
 
