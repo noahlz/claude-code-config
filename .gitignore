@@ -1,0 +1,12 @@
+# IDE
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Claude Code
+.claude/settings.local.json
+
+# Plugin configurations (meant to be per-user not per-project - do not commit)
+.claude/settings.plugins.*.json
