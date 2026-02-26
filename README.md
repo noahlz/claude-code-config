@@ -44,6 +44,7 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 - macOS (uses `say` for audio notifications)
 - Node.js >= 18
 
+
 ### Installation Instructions
 
 ```bash
@@ -53,6 +54,16 @@ cd claude-code-config
 ```
 
 The script creates symlinks from `~/.claude/` into the repo. If a file already exists at a target path, it is backed up as `<filename>.bak` before being replaced. Running it again on already-linked files is safe — those are silently skipped.
+
+## Testing
+
+This project has executable code, so we need unit tests!
+
+- `npm test` - Test hook scripts
+- `npm run test:integration` - Test hooks via `claude -p --model haiku`
+- `npm run test:all`
+
+**NOTE:** Integration tests require an Anthropic API key and use real tokens!
 
 ## Status Line
 

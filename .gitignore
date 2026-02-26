@@ -10,3 +10,6 @@
 
 # Plugin configurations (meant to be per-user not per-project - do not commit)
 .claude/settings.plugins.*.json
+
+# Test output
+test.log
