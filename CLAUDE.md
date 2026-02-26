@@ -16,5 +16,6 @@ If tests failed, examine `test.log` for details.
 
 ## References
 
-[Claude Code Hooks documentation](https://code.claude.com/docs/en/hooks)
+[Claude Code Hooks reference](https://code.claude.com/docs/en/hooks)
+[Claude Code Hooks guide](https://code.claude.com/docs/en/hooks-guide)
 
