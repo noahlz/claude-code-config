@@ -2,6 +2,8 @@
 
 My [Claude Code](https://claude.ai/code) configuration, shared publicly for reference.
 
+[![Unit Tests](https://github.com/noahlz/claude-code-config/actions/workflows/test.yml/badge.svg)](https://github.com/noahlz/claude-code-config/actions/workflows/test.yml)
+
 ## Philosophy
 
 **Keep `CLAUDE.md` minimal.** A short, focused set of behavioral rules beats a sprawling prompt.
