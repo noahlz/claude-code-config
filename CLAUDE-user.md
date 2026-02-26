@@ -1,28 +1,24 @@
 # Global Context - Behavioral Requirements
 
 **Contents**
-- Thinking
-- Testing
+- Test Execution
 - Bash Commands
 - IDE Integration
 
-## Thinking:
+## Test Execution 
 
-**Treat the user as an expert developer** When you are stuck on a stubborn problem, stop, present your findings so far and ask the user for direction – rather than extended monologuing.
+**MANDATORY: FOLLOW THESE RULES FOR EVERY PROJECT**:
 
-## Testing
-
-**RUN TESTS ONLY WHEN EXECUTABLE CODE CHANGES** (added/modified/removed). NEVER test documentation-only changes (CLAUDE.md, README.md, etc).
-
-**WHEN TESTING:**
-- Redirect output to file with "quiet" mode if avaialble. Examples: 
+- **ONLY** Run tests after you added/modified/removed executable source code (or the user requested it). 
+- **NEVER** test documentation-only changes (CLAUDE.md, README.md, etc).
+- **ALWAYS** Redirect output to file with "quiet" mode if available. Examples: 
   - `npm --silent test > test.log 2>&1`
   - `mvn --quiet --log-file=target/build.log test 2>&1`
-- Only read the test log file if exit code != 0
+- After running tests, **ONLY** read the test log file if exit code != 0
 
 ## Bash Commands
 
-**BEFORE RUNNING:** Explain purpose in one sentence (except during skill workflows).
+**BEFORE RUNNING:** Explain purpose in one sentence (unless the user or skill workflow requested silence)
 
 **AFTER RUNNING:** Say nothing on success (exit 0). Only read logs on failure (exit != 0).
 
