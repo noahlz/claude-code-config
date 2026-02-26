@@ -1,38 +1,33 @@
 # claude-code-config
 
-My [Claude Code](https://claude.ai/code) configuration, shared publicly for reference.
+My [Claude Code](https://claude.ai/code) configuration, shared publicly for reference. Includes install script and tests suite.
 
 [![Unit Tests](https://github.com/noahlz/claude-code-config/actions/workflows/test.yml/badge.svg)](https://github.com/noahlz/claude-code-config/actions/workflows/test.yml)
 
 ## Philosophy
 
-**Keep `CLAUDE.md` minimal.** A short, focused set of behavioral rules beats a sprawling prompt.
+**Keep `CLAUDE.md` minimal.** A short, focused set of behavioral rules [beats a sprawling prompt](https://arxiv.org/abs/2602.11988).
 
-**Use hooks over instructions.** Hard rules belong in hooks, not prose. Hooks are enforced mechanically. Instructions are mere suggestions that waste context (and tokens!).
+**Use hooks, not instructions.** Hard rules belong in hooks, not "reminders" to the LLM. Hooks are enforced mechanically. Instructions are mere suggestions that waste context (and tokens!).
 
-**Terse output style** Output flat and direct language, don't use filler phrases ("Great idea!", "You're absolutely right!") and summarize edits concisely. Less noise, faster feedback.
+**Audible notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude `say` something when a long-running turn completes. Configurable with `CLAUDE_SAY_THRESHOLD`, default 120 seconds.
 
-**Audible notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude use the macOS `say` command via a hook when long-running turns complete. Configurable with `CLAUDE_SAY_THRESHOLD`, default 90 seconds.
+**Terse output style** Use flat and direct language. Avoid synchopatic filler phrases ("Great idea!", "You're absolutely right!"). Summarize edits concisely. Less noise, faster feedback.
 
-**Hard blocks on destructive commands.** A `PreToolUse` hook intercepts bash commands matching patterns like `rm -rf`, `git push --force`, `git reset --hard`, and others. Claude tells the user they have to run these commands themselves.
+## Hooks
 
-## Contents
+Behaviors enforced by hooks:
 
-- **`CLAUDE-user.md`** — Global behavioral instructions: test output rules, bash command narration, IDE tool preferences. Symlinked to `~/.claude/CLAUDE.md`.
-- **`settings.hooks.json`** — Hook definitions only. Merged into `~/.claude/settings.json` at install time.
-- **`install-settings.js`** — Node.js script that merges `settings.hooks.json` and sets `outputStyle: "terse"` into `~/.claude/settings.json`.
-- **`output-styles/terse.md`** — Enforces direct, non-sycophantic output with concise post-edit summaries.
-- **`hooks/`**
-  - `block-bash-patterns.sh` — Blocks destructive shell commands before they run.
-  - `record-start-time.sh` — Records turn start time and detects task type from prompt keywords (for `say` hook).
-  - `set-task-type.sh` — Writes task label (Plan/Exploration) when a subagent starts (for `say` hook).
-  - `say-on-stop.sh` — Speaks a completion notification for long-running turns using `say` command.
+- Hard block destructive commands such as `rm -rf` and `drop table users`
+- Use the macOS `say` command at end of a long-running turn (default: 120 seconds)
 
 ## Installation 
 
 ### ⚠️ WARNING: DO NOT CLONE AND INSTALL THIS DIRECTLY ⚠️
 
-**The install script halts if you are not me.** If you want to use it:
+**The install script halts if you are not me.** 
+
+If you want to use it:
 
 1. [Fork](https://github.com/noahlz/claude-code-config/fork) this repo
 2. Review and customize `settings.hooks.json`, `CLAUDE-user.md`, and the hook scripts for your own setup
@@ -43,9 +38,8 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 ### Prerequisites
 
-- macOS (uses `say` for audio notifications)
-- Node.js >= 18
-
+- Node.js >= 18 (installation and test suite)
+- macOS (for the `say` command)
 
 ### Installation Instructions
 
@@ -59,7 +53,7 @@ The script creates symlinks from `~/.claude/` into the repo. If a file already e
 
 ## Testing
 
-This project has executable code, so we need unit tests!
+This project has executable code...so we need unit tests!
 
 - `npm test` - Test hook scripts
 - `npm run test:integration` - Test hooks via `claude -p --model haiku`

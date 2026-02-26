@@ -1,5 +1,5 @@
 /**
- * Integration tests: invoke `claude -p` and verify hook side effects.
+ * Integration tests: invoke `claude -p --model haiku` and verify hook side effects.
  * These tests make real API calls and are opt-in via `npm run test:integration`.
  */
 
@@ -18,7 +18,7 @@ const TASK_FILE = join(homedir(), '.claude', 'current-task');
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function runClaude(prompt, extraEnv = {}) {
-  return spawnSync('claude', ['-p', prompt, '--max-turns', '1'], {
+  return spawnSync('claude', ['--model', 'haiku', '-p', prompt, '--max-turns', '1'], {
     encoding: 'utf8',
     timeout: 60_000,
     env: {
