@@ -9,6 +9,26 @@
             "command": "~/.claude/hooks/block-bash-patterns.sh"
           }
         ]
+      },
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/pre-exit-plan-mode.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/post-exit-plan-mode.sh"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
