@@ -16,8 +16,9 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 ## Contents
 
-- **`CLAUDE.md`** — Global behavioral instructions: test output rules, bash command narration, IDE tool preferences.
-- **`settings.json`** — Model, status line, environment variables, enabled plugins, and hook wiring.
+- **`CLAUDE-user.md`** — Global behavioral instructions: test output rules, bash command narration, IDE tool preferences. Symlinked to `~/.claude/CLAUDE.md`.
+- **`settings.hooks.json`** — Hook definitions only. Merged into `~/.claude/settings.json` at install time.
+- **`install-settings.js`** — Node.js script that merges `settings.hooks.json` and sets `outputStyle: "terse"` into `~/.claude/settings.json`.
 - **`output-styles/terse.md`** — Enforces direct, non-sycophantic output with concise post-edit summaries.
 - **`hooks/`**
   - `block-bash-patterns.sh` — Blocks destructive shell commands before they run.
@@ -32,11 +33,16 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 **The install script halts if you are not me.** If you want to use it:
 
 1. [Fork](https://github.com/noahlz/claude-code-config/fork) this repo
-2. Review and customize `settings.json`, `CLAUDE.md`, and the hook scripts for your own setup
+2. Review and customize `settings.hooks.json`, `CLAUDE-user.md`, and the hook scripts for your own setup
 3. Edit `install.sh` to check for your own username instead of `noahlz`
 4. Run `./install.sh` from your fork
 
 *Running someone else's Claude Code config without reviewing it first is a bad idea — hooks run automatically and can have broad system access.*
+
+### Prerequisites
+
+- macOS (uses `say` for audio notifications)
+- Node.js >= 18
 
 ### Installation Instructions
 
@@ -56,7 +62,7 @@ Install it separately — the generated `~/.claude/statusline.sh` is not include
 
 ## Inspiration
 
-I (with Claude) completely re-wrote my global `CLAUDE.md` after watching these two videos by [Matt Pocock](https://github.com/mattpocock):
+I (with Claude) completely re-wrote my user-level `CLAUDE.md` after watching these two videos by [Matt Pocock](https://github.com/mattpocock):
 
 "Never Run claude /init"  
 [![Never Run claude /init](https://img.youtube.com/vi/9tmsq-Gvx6g/0.jpg)](https://www.youtube.com/watch?v=9tmsq-Gvx6g)

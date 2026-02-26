@@ -19,7 +19,7 @@ fi
 
 link() {
   local src="$REPO_DIR/$1"
-  local dst="$CLAUDE_DIR/$1"
+  local dst="$CLAUDE_DIR/${2:-$1}"
   local dst_dir
   dst_dir="$(dirname "$dst")"
 
@@ -27,17 +27,17 @@ link() {
 
   if [ -L "$dst" ]; then
     if [ "$(readlink "$dst")" = "$src" ]; then
-      echo "  skip    $1 (already linked)"
+      echo "  skip    ${2:-$1} (already linked)"
     else
-      echo "  relink  $1 (was pointing elsewhere)"
+      echo "  relink  ${2:-$1} (was pointing elsewhere)"
       ln -sf "$src" "$dst"
     fi
   elif [ -e "$dst" ]; then
-    echo "  backup  $1 -> $1.bak"
+    echo "  backup  ${2:-$1} -> ${2:-$1}.bak"
     mv "$dst" "$dst.bak"
     ln -s "$src" "$dst"
   else
-    echo "  link    $1"
+    echo "  link    $1 -> ${2:-$1}"
     ln -s "$src" "$dst"
   fi
 }
@@ -45,13 +45,13 @@ link() {
 echo "Installing claude-code-config to $CLAUDE_DIR"
 echo ""
 
-link CLAUDE.md
-link settings.json
+link CLAUDE-user.md CLAUDE.md
 link hooks/block-bash-patterns.sh
 link hooks/record-start-time.sh
 link hooks/say-on-stop.sh
 link hooks/set-task-type.sh
 link output-styles/terse.md
 
-echo ""
+node "$REPO_DIR/install-settings.js"
+
 echo "Done."

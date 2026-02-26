@@ -18,13 +18,17 @@ if [ -f "$START_FILE" ]; then
   ELAPSED=$((NOW - START))
   rm -f "$START_FILE"
 
-  THRESHOLD="${CLAUDE_SAY_THRESHOLD:-90}"
+  THRESHOLD="${CLAUDE_SAY_THRESHOLD:-120}"
   if [ "$ELAPSED" -gt "$THRESHOLD" ]; then
     TASK_FILE="$HOME/.claude/current-task"
     if [ -f "$TASK_FILE" ] && [ -s "$TASK_FILE" ]; then
       LABEL=$(cat "$TASK_FILE")
       rm -f "$TASK_FILE"
-      say "${LABEL} complete." &
+      if [ "$LABEL" = "Plan" ]; then
+        say "Plan ready for review." &
+      else
+        say "${LABEL} complete." &
+      fi
     else
       say "Task complete." &
     fi
