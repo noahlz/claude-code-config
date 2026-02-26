@@ -1,0 +1,9 @@
+{
+  "name": "claude-code-config-tests",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/unit/*.test.js",
+    "test:integration": "node --test tests/integration/*.test.js",
+    "test:all": "npm test && npm run test:integration"
+  }
+}

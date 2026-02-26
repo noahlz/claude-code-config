@@ -1,5 +1,5 @@
 #!/bin/bash
-# Runs `say` if the turn took > 45 seconds.
+# Runs `say` if the turn took > CLAUDE_SAY_THRESHOLD seconds (default: 120).
 # Reads ~/.claude/current-task for a specific label; falls back to "Task complete."
 
 INPUT=$(cat)
