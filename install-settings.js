@@ -1,11 +1,10 @@
 #!/usr/bin/env node
-'use strict';
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const CLAUDE_SETTINGS = path.join(process.env.HOME, '.claude', 'settings.json');
-const HOOKS_FILE = path.join(__dirname, 'settings.hooks.json');
+const HOOKS_FILE = path.join(import.meta.dirname, 'settings.hooks.json');
 
 console.log('\nUpdating ~/.claude/settings.json');
 console.log('─'.repeat(40));
