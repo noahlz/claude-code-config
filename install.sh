@@ -49,8 +49,9 @@ link CLAUDE-user.md CLAUDE.md
 link hooks/block-bash-patterns.sh
 link hooks/post-exit-plan-mode.sh
 link hooks/pre-exit-plan-mode.sh
+link hooks/notify-lib.sh
+link hooks/notify-on-stop.sh
 link hooks/record-start-time.sh
-link hooks/say-on-stop.sh
 link hooks/set-task-type.sh
 link agents/react-code-reviewer.md
 link agents/test-quality-reviewer.md
