@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/say-on-stop.sh"
+            "command": "~/.claude/hooks/notify-on-stop.sh"
           }
         ]
       }

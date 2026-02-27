@@ -15,6 +15,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 describe('pre-exit-plan-mode.sh', () => {
   let testHome;
   let sayLog;
+  let notifyLog;
 
   function runHook() {
     return spawnSync(HOOK, {
@@ -25,6 +26,7 @@ describe('pre-exit-plan-mode.sh', () => {
         HOME: testHome,
         PATH: `${HELPERS_DIR}:${process.env.PATH}`,
         SAY_LOG: sayLog,
+        NOTIFY_LOG: notifyLog,
       },
     });
   }
@@ -32,6 +34,7 @@ describe('pre-exit-plan-mode.sh', () => {
   beforeEach(() => {
     testHome = mkdtempSync(join(tmpdir(), 'claude-hook-test-'));
     sayLog = join(testHome, 'say-calls.log');
+    notifyLog = join(testHome, 'osascript-calls.log');
   });
 
   afterEach(() => {

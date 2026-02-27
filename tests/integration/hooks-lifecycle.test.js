@@ -63,23 +63,23 @@ describe('hooks lifecycle integration', () => {
   );
 
   test(
-    'say-on-stop: fires say when CLAUDE_SAY_THRESHOLD=0',
+    'notify-on-stop: fires notification when CLAUDE_NOTIFICATION_THRESHOLD=0',
     { timeout: 60_000 },
     async () => {
       const sayLog = join(tmpdir(), `say-integration-${Date.now()}.log`);
 
       const result = runClaude('what is 1+1', {
-        CLAUDE_SAY_THRESHOLD: '0',
+        CLAUDE_NOTIFICATION_THRESHOLD: '0',
         SAY_LOG: sayLog,
       });
       assert.equal(result.status, 0, `claude -p failed: ${result.stderr}`);
 
-      // say is spawned with & — wait for it to flush
+      // notification is spawned with & — wait for it to flush
       await sleep(1000);
 
-      assert.ok(existsSync(sayLog), 'say mock should have been called (log file missing)');
+      assert.ok(existsSync(sayLog), 'notification mock should have been called (log file missing)');
       const logged = readFileSync(sayLog, 'utf8').trim();
-      assert.ok(logged.length > 0, `say log should contain a message, got: "${logged}"`);
+      assert.ok(logged.length > 0, `notification log should contain a message, got: "${logged}"`);
 
       if (existsSync(sayLog)) unlinkSync(sayLog);
     }

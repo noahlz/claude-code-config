@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+import { appendFileSync } from 'node:fs';
+const log = process.env.NOTIFY_LOG ?? '/tmp/osascript-calls.log';
+appendFileSync(log, process.argv.slice(2).join(' ') + '\n');

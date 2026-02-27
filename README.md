@@ -10,7 +10,7 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 **Use hooks, not instructions.** Hard rules belong in hooks, not "reminders" to the LLM. Hooks are enforced mechanically. Instructions are mere suggestions that waste context (and tokens!).
 
-**Audible notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude `say` something when a long-running turn completes. Configurable with `CLAUDE_SAY_THRESHOLD`, default 120 seconds.
+**Cross-platform notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude send a notification when a long-running turn completes. Configurable with `CLAUDE_NOTIFICATION_THRESHOLD` (default 120 seconds) and `CLAUDE_NOTIFICATION_METHOD` (default `say`; use `notification` for visual popups).
 
 **Terse output style** Use flat language, avoid synchopatic filler phrases ("Great idea!", "You're absolutely right!"). Summarize edits concisely. Less noise, direct feedback.
 
@@ -19,7 +19,10 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 Behaviors enforced by hooks:
 
 - Hard block destructive commands such as `rm -rf` and `drop table users`
-- Use the macOS `say` command at end of a long-running turn (default: 120 seconds)
+- Send notifications at the end of long-running turns (default: 120 seconds)
+  - macOS: uses `say` (audio) by default; set `CLAUDE_NOTIFICATION_METHOD=notification` for visual popups via `osascript`
+  - Windows: uses PowerShell `BurntToast` if available; silently skipped otherwise
+  - Linux: silently skipped (no built-in notification tool assumed)
 
 ## Installation 
 
@@ -39,7 +42,7 @@ If you want to use it:
 ### Prerequisites
 
 - Node.js >= 18 (installation and test suite)
-- macOS (for the `say` command)
+- macOS, Windows, or Linux (notifications are cross-platform)
 
 ### Installation Instructions
 
