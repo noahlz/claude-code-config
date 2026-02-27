@@ -52,6 +52,8 @@ link hooks/pre-exit-plan-mode.sh
 link hooks/record-start-time.sh
 link hooks/say-on-stop.sh
 link hooks/set-task-type.sh
+link agents/react-code-reviewer.md
+link agents/test-quality-reviewer.md
 link output-styles/terse.md
 
 node "$REPO_DIR/install-settings.js"
