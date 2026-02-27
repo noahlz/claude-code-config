@@ -12,7 +12,7 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 **Audible notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude `say` something when a long-running turn completes. Configurable with `CLAUDE_SAY_THRESHOLD`, default 120 seconds.
 
-**Terse output style** Use flat and direct language. Avoid synchopatic filler phrases ("Great idea!", "You're absolutely right!"). Summarize edits concisely. Less noise, faster feedback.
+**Terse output style** Use flat language, avoid synchopatic filler phrases ("Great idea!", "You're absolutely right!"). Summarize edits concisely. Less noise, direct feedback.
 
 ## Hooks
 
@@ -23,7 +23,7 @@ Behaviors enforced by hooks:
 
 ## Installation 
 
-### ⚠️ WARNING: DO NOT CLONE AND INSTALL THIS DIRECTLY ⚠️
+### ⚠️ WARNING⚠️  Do not clone and install this directly! 
 
 **The install script halts if you are not me.** 
 
@@ -60,12 +60,6 @@ This project has executable code...so we need unit tests!
 - `npm run test:all`
 
 **NOTE:** Integration tests require an Anthropic API key and use real tokens!
-
-## Status Line
-
-Uses [`@chongdashu/cc-statusline`](https://www.npmjs.com/package/@chongdashu/cc-statusline)
-
-Install it separately — the generated `~/.claude/statusline.sh` is not included in this repo.
 
 ## Inspiration
 
