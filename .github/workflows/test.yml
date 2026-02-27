@@ -6,15 +6,19 @@ on:
     paths:
       - 'hooks/**'
       - 'tests/**'
-      - 'package.json'
       - '.github/workflows/test.yml'
+      - '*.js'
+      - '*.json'
+      - '*.sh'
   pull_request:
     branches: [main]
     paths:
       - 'hooks/**'
       - 'tests/**'
-      - 'package.json'
       - '.github/workflows/test.yml'
+      - '*.js'
+      - '*.json'
+      - '*.sh'
 
 jobs:
   test:
