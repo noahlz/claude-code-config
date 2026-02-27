@@ -4,6 +4,7 @@
 - Test Execution
 - Bash Commands
 - IDE Integration
+- Agent Team Workflows
 
 ## Test Execution 
 
@@ -28,3 +29,14 @@ Example: `[build] && echo "Tests passed." || echo "Tests FAILED!"`
 
 Prefer IDE and LSP tools (getDiagnostics, goToDefinition, findReferences) over Search/Grep/Find for code search and errors. Fallback to standard tools if IDE tools don't provide results.
 
+## Specialist Agent Workflows
+
+**Spawn agents for:**
+- Major refactoring (3+ files, significant logic changes) → use `code-reviewer`
+- New major features → use `code-reviewer` + `test-quality-reviewer`
+- Test suite improvements (3+ test files) → use `test-quality-reviewer`
+- Code clarity/cleanup → use `code-simplifier`
+
+**Launch pattern:** Spawn multiple agents in parallel with `run_in_background: true`. Check results when all complete.
+
+**Skip agents for:** trivial changes, already-verified work (lint/types/tests passing), research tasks.
