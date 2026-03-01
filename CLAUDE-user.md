@@ -3,7 +3,6 @@
 ## Test Execution
 
 Run tests ONLY when executable source was added/modified/removed, or the user requests it.
-NEVER run tests for documentation-only changes (CLAUDE.md, README.md, etc.).
 
 ALWAYS redirect output using quiet mode:
 - `npm --silent test > test.log 2>&1`
@@ -13,24 +12,23 @@ Read the log ONLY if exit code != 0.
 
 ## Comments
 
-DO NOT add comments that merely restate the next line:
-```typescript
-// Log the sum
-console.log(1 + 1)
-```
+DO add comments that:
+- Explain non-obvious code: workarounds, tricky bug fixes, performance tradeoffs, deliberately non-idiomatic patterns
+- Clarify dense code: regexes, complex transformations, long reduce/comprehension chains
+- Standard doc blocks (JSDoc, JavaDoc, ScalaDoc, docstrings) are fine
 
-DO add comments that explain what would otherwise require a reader to reverse-engineer:
+Good example of non-obvious code that requires a comment:
 ```typescript
 // Matches ISO 8601 durations: P[n]Y[n]M[n]DT[n]H[n]M[n]S (e.g. "P1Y2M3DT4H5M6S", "PT30S")
 // The T separator is required only when time components are present.
 const ISO_DURATION = /^P(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?:\d+H)?(?:\d+M)?(?:\d+S)?)?$/;
 ```
 
-DO add comments that:
-- Explain non-obvious code: workarounds, performance tradeoffs, deliberately non-idiomatic patterns
-- Describe bug fixes with context and criteria for removal
-- Clarify dense code: regexes, complex transformations, long reduce/comprehension chains
-- Standard doc blocks (JSDoc, JavaDoc, ScalaDoc, docstrings) are fine
+But DO NOT add comments that merely restate the next line:
+```typescript
+// Log the sum
+console.log(1 + 1)
+```
 
 ## Bash Commands
 
@@ -41,16 +39,6 @@ After running: say nothing on success (exit 0). Read logs only on failure (exit 
 
 Use IDE/LSP tools (getDiagnostics, goToDefinition, findReferences) before Search/Grep/Find.
 Fall back to standard tools only if LSP returns no results.
-
-## Specialist Agents
-
-Spawn agents for:
-- React: New features, bug fixes, refactorings → `react-code-reviewer` + `test-quality-reviewer`
-- All: New test files/cases → `test-quality-reviewer`
-- All: Code clarity/cleanup → `code-simplifier`
-
-Launch pattern: parallel with `run_in_background: true`. Check results when all complete.
-Skip agents for: trivial changes, research tasks, already-verified work.
 
 ## "Superpowers" Skill
 
