@@ -1,42 +1,57 @@
-# Global Context - Behavioral Requirements
+# Global Claude Code Behavioral Rules
 
-**Contents**
-- Test Execution
-- Bash Commands
-- IDE Integration
-- Agent Team Workflows
+## Test Execution
 
-## Test Execution 
+Run tests ONLY when executable source was added/modified/removed, or the user requests it.
+NEVER run tests for documentation-only changes (CLAUDE.md, README.md, etc.).
 
-**MANDATORY: FOLLOW THESE RULES FOR EVERY PROJECT**:
+ALWAYS redirect output using quiet mode:
+- `npm --silent test > test.log 2>&1`
+- `mvn --quiet --log-file=target/build.log test 2>&1`
 
-- **ONLY** Run tests after you added/modified/removed executable source code (or the user requested it). 
-- **NEVER** test documentation-only changes (CLAUDE.md, README.md, etc).
-- **ALWAYS** Redirect output to file with "quiet" mode if available. Examples: 
-  - `npm --silent test > test.log 2>&1`
-  - `mvn --quiet --log-file=target/build.log test 2>&1`
-- After running tests, **ONLY** read the test log file if exit code != 0
+Read the log ONLY if exit code != 0.
+
+## Comments
+
+DO NOT add comments that merely restate the next line:
+```typescript
+// Log the sum
+console.log(1 + 1)
+```
+
+DO add comments that explain what would otherwise require a reader to reverse-engineer:
+```typescript
+// Matches ISO 8601 durations: P[n]Y[n]M[n]DT[n]H[n]M[n]S (e.g. "P1Y2M3DT4H5M6S", "PT30S")
+// The T separator is required only when time components are present.
+const ISO_DURATION = /^P(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?:\d+H)?(?:\d+M)?(?:\d+S)?)?$/;
+```
+
+DO add comments that:
+- Explain non-obvious code: workarounds, performance tradeoffs, deliberately non-idiomatic patterns
+- Describe bug fixes with context and criteria for removal
+- Clarify dense code: regexes, complex transformations, long reduce/comprehension chains
+- Standard doc blocks (JSDoc, JavaDoc, ScalaDoc, docstrings) are fine
 
 ## Bash Commands
 
-**BEFORE RUNNING:** Explain purpose in one sentence (unless the user or skill workflow requested silence)
-
-**AFTER RUNNING:** Say nothing on success (exit 0). Only read logs on failure (exit != 0).
-
-Example: `[build] && echo "Tests passed." || echo "Tests FAILED!"`
+Before running: one sentence explaining purpose (unless a skill workflow says otherwise).
+After running: say nothing on success (exit 0). Read logs only on failure (exit != 0).
 
 ## IDE Integration
 
-Prefer IDE and LSP tools (getDiagnostics, goToDefinition, findReferences) over Search/Grep/Find for code search and errors. Fallback to standard tools if IDE tools don't provide results.
+Use IDE/LSP tools (getDiagnostics, goToDefinition, findReferences) before Search/Grep/Find.
+Fall back to standard tools only if LSP returns no results.
 
-## Specialist Agent Workflows
+## Specialist Agents
 
-**Spawn agents for:**
-- React apps: Major refactoring (3+ files, significant logic changes) → use `react-code-reviewer`
-- React apps: New major features → use `react-code-reviewer` + `test-quality-reviewer`
-- General: Test suite improvements (3+ test files) → use `test-quality-reviewer`
-- General: Code clarity/cleanup → use `code-simplifier`
+Spawn agents for:
+- React: New features, bug fixes, refactorings → `react-code-reviewer` + `test-quality-reviewer`
+- All: New test files/cases → `test-quality-reviewer`
+- All: Code clarity/cleanup → `code-simplifier`
 
-**Launch pattern:** Spawn multiple agents in parallel with `run_in_background: true`. Check results when all complete.
+Launch pattern: parallel with `run_in_background: true`. Check results when all complete.
+Skip agents for: trivial changes, research tasks, already-verified work.
 
-**Skip agents for:** trivial changes, already-verified work (lint/types/tests passing), research tasks.
+## "Superpowers" Skill
+
+DO NOT run `git` commands when executing the "Superpowers" skill. The user commits manually.
