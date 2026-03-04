@@ -1,7 +1,6 @@
 # Global Claude Code Behavioral Rules
 
 ## Test Execution
-
 Run tests ONLY when executable source was added/modified/removed, or the user requests it.
 
 ALWAYS redirect output using quiet mode:
@@ -11,7 +10,6 @@ ALWAYS redirect output using quiet mode:
 Read the log ONLY if exit code != 0.
 
 ## Comments
-
 DO add comments that:
 - Explain non-obvious code: workarounds, tricky bug fixes, performance tradeoffs, deliberately non-idiomatic patterns
 - Clarify dense code: regexes, complex transformations, long reduce/comprehension chains
@@ -31,15 +29,15 @@ console.log(1 + 1)
 ```
 
 ## Bash Commands
-
-Before running: one sentence explaining purpose (unless a skill workflow says otherwise).
+Before running: one sentence explaining purpose (unless a skill workflow says otherwise).  
 After running: say nothing on success (exit 0). Read logs only on failure (exit != 0).
 
 ## IDE Integration
-
-Use IDE/LSP tools (getDiagnostics, goToDefinition, findReferences) before Search/Grep/Find.
+Use IDE/LSP tools (getDiagnostics, goToDefinition, findReferences) before Search/Grep/Find.  
 Fall back to standard tools only if LSP returns no results.
 
-## "Superpowers" Skill
-
-DO NOT run `git` commands when executing the "Superpowers" skill. The user commits manually.
+## "Superpowers" Skill Rules
+Rules for using the "Superpowers" skill:
+- Save design and plan docs to `.claude/plans/` in the project root.
+- DO NOT run `git` commands when executing the "Superpowers" skill. The user commits manually.
+- Pause before entering plan execution mode – The user may want to do it in a separate session.
