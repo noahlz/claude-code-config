@@ -1,3 +1,3 @@
 # Global Claude Code Behavioral Rules
 
-See `~/.claude/rules/` for topic-specific rules.
+Load topic-specific rule files as needed: [`./rules/`](./rules/)

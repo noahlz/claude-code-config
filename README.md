@@ -6,9 +6,9 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 ## Philosophy
 
-**Keep `CLAUDE.md` minimal.** A short, focused set of behavioral rules [beats a sprawling prompt](https://arxiv.org/abs/2602.11988).
+**Keep `CLAUDE.md` minimal** - a set of focused [rules](./rules) [beats a sprawling prompt](https://arxiv.org/abs/2602.11988).
 
-**Use hooks, not instructions.** Hard rules belong in hooks, not "reminders" to the LLM. Hooks are enforced mechanically. Instructions are mere suggestions that waste context (and tokens!).
+**Use hooks, not prompt instructions.** Hard rules belong in hooks, not "reminders" to the LLM. Hooks are enforced mechanically. Instructions are mere suggestions that waste context (and tokens!).
 
 **Cross-platform notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude send a notification when a long-running turn completes. Configurable with `CLAUDE_NOTIFICATION_THRESHOLD` (default 120 seconds) and `CLAUDE_NOTIFICATION_METHOD` (default `say`; use `notification` for visual popups).
 
@@ -52,7 +52,7 @@ cd claude-code-config
 ./install.sh
 ```
 
-The script creates symlinks from `~/.claude/` into the repo. If a file already exists at a target path, it is backed up as `<filename>.bak` before being replaced. Running it again on already-linked files is safe — those are silently skipped.
+The script creates symlinks into your `~/.claude/` (Claude user home) into files in the repo. If a file already exists at a target path, it is backed up as `<filename>.bak` before being replaced. Running it again on already-linked files is safe — those are silently skipped.
 
 ## Testing
 

@@ -4,8 +4,8 @@
 
 Test code should be DRY:
 - Avoid redundant boilerplate
-- Create reusable functions for setup, execution and assertions.
-- Use table-driven tests if appropriate (single function, 10+ permutations)
+- Have reusable functions and/or base classes/modules for setup, execution and assertions.
+- Use table-driven tests if appropriate (example: single function, 6+ input/output permutations)
 
 ## Test Execution
 
