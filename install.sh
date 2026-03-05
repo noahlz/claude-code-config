@@ -53,8 +53,6 @@ link hooks/notify-lib.sh
 link hooks/notify-on-stop.sh
 link hooks/record-start-time.sh
 link hooks/set-task-type.sh
-link agents/react-code-reviewer.md
-link agents/test-quality-reviewer.md
 link output-styles/terse.md
 link rules/testing.md
 link rules/comments.md
