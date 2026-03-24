@@ -12,4 +12,5 @@
 .claude/settings.plugins.*.json
 
 # Test output
-test.log
+*.log
+dist/
