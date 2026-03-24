@@ -1,0 +1,71 @@
+▶ block-bash-patterns.sh
+  ✔ blocks rm -rf (18.276125ms)
+  ✔ blocks rm -fr (16.055834ms)
+  ✔ blocks git push --force (18.661417ms)
+  ✔ blocks git push -f (18.017166ms)
+  ✔ blocks git reset --hard (16.434292ms)
+  ✔ blocks git checkout -- . (17.36325ms)
+  ✔ blocks git clean -f (18.967334ms)
+  ✔ blocks git branch -D (19.013834ms)
+  ✔ blocks drop table (20.50775ms)
+  ✔ blocks drop database (20.222666ms)
+  ✔ blocks pipe to tee (5.93025ms)
+  ✔ allows benign command (20.450334ms)
+  ✔ allows pipe without tee (19.674625ms)
+  ✔ allows git push without force flag (19.539791ms)
+✔ block-bash-patterns.sh (250.2395ms)
+▶ notify-on-stop-failure.sh
+  ✔ exits 0 (66.305375ms)
+  ✔ always notifies regardless of elapsed time (no start file needed) (352.037917ms)
+  ✔ method=say → says "Task failed." (356.133041ms)
+  ✔ method=notification → osascript called with "Task failed." (367.547625ms)
+  ✔ task label present → still says "Task failed." (label is ignored) (354.609416ms)
+✔ notify-on-stop-failure.sh (1497.430667ms)
+▶ notify-on-stop.sh
+  ✔ exits 0 (17.708542ms)
+  ✔ stop_hook_active=true → exits immediately, no notification (313.349042ms)
+  ✔ no start file → no notification (313.015959ms)
+  ✔ elapsed < threshold → no notification (326.784167ms)
+  ✔ method=say, label "Plan" → says "Plan ready for review." (373.139709ms)
+  ✔ method=say, label "Implementation" → says "Implementation complete." (374.881666ms)
+  ✔ method=say, label "Exploration" → says "Exploration complete." (389.502875ms)
+  ✔ method=say, no task file → says "Task complete." (384.100375ms)
+  ✔ method=notification, label "Plan" → osascript called with "Plan ready for review." (391.340666ms)
+  ✔ method=notification, no task file → osascript called with "Task complete." (388.342708ms)
+✔ notify-on-stop.sh (3274.4625ms)
+▶ post-exit-plan-mode.sh
+  ✔ exits 0 (4.092708ms)
+  ✔ writes "Implementation" to current-task (4.1355ms)
+  ✔ overwrites stale "Exploration" label (3.961333ms)
+  ✔ overwrites stale "Plan" label (3.434041ms)
+✔ post-exit-plan-mode.sh (16.570833ms)
+▶ pre-exit-plan-mode.sh
+  ✔ exits 0 (58.15775ms)
+  ✔ says "Plan ready for review." (347.5175ms)
+✔ pre-exit-plan-mode.sh (406.292333ms)
+▶ record-start-time.sh
+  ✔ exits 0 (26.715625ms)
+  ✔ creates timestamp file (21.600833ms)
+  ✔ "implement" → writes Implementation (19.198916ms)
+  ✔ "proceed" → writes Implementation (13.404708ms)
+  ✔ "go ahead" → writes Implementation (14.144875ms)
+  ✔ "execute the plan" → writes Implementation (14.162542ms)
+  ✔ no keywords → no task file (12.784ms)
+  ✔ stale label cleared when new prompt has no keywords (12.7875ms)
+  ✔ stale label overwritten when new prompt has keywords (12.630208ms)
+✔ record-start-time.sh (148.147709ms)
+▶ set-task-type.sh
+  ✔ exits 0 (13.363166ms)
+  ✔ Plan → writes "Plan" (10.486292ms)
+  ✔ Explore → writes "Exploration" when no task file (9.95175ms)
+  ✔ Explore does not overwrite existing task file (9.937875ms)
+  ✔ unknown agent type → no task file created (8.711209ms)
+✔ set-task-type.sh (53.145292ms)
+ℹ tests 49
+ℹ suites 7
+ℹ pass 49
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3365.090375
