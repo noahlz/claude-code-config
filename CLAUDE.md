@@ -14,6 +14,11 @@ To run unit tests: `npm --quiet test > test.log 2&>1 && echo "✔ Tests passed."
 
 If tests failed, examine `test.log` for details.
 
+## Maintenance
+
+After adding, removing, or renaming files in `hooks/`, `rules/`, or `output-styles/`,
+prompt the user to re-run `./install.sh` so changes are reflected in `~/.claude`.
+
 ## References
 
 [Claude Code Hooks reference](https://code.claude.com/docs/en/hooks)

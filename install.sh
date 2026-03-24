@@ -46,18 +46,18 @@ echo "Installing claude-code-config to $CLAUDE_DIR"
 echo ""
 
 link CLAUDE-user.md CLAUDE.md
-link hooks/block-bash-patterns.sh
-link hooks/post-exit-plan-mode.sh
-link hooks/pre-exit-plan-mode.sh
-link hooks/notify-lib.sh
-link hooks/notify-on-stop.sh
-link hooks/record-start-time.sh
-link hooks/set-task-type.sh
-link output-styles/terse.md
-link rules/testing.md
-link rules/comments.md
-link rules/workflow.md
-link rules/superpowers.md
+
+for f in "$REPO_DIR"/hooks/*.sh; do
+  link "hooks/$(basename "$f")"
+done
+
+for f in "$REPO_DIR"/rules/*.md; do
+  link "rules/$(basename "$f")"
+done
+
+for f in "$REPO_DIR"/output-styles/*.md; do
+  link "output-styles/$(basename "$f")"
+done
 
 node "$REPO_DIR/install-settings.js"
 
