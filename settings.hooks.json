@@ -61,6 +61,16 @@
           }
         ]
       }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notify-on-stop-failure.sh"
+          }
+        ]
+      }
     ]
   }
 }
