@@ -2,24 +2,33 @@
 
 ## Writing Tests
 
-Write DRY test code:
-- Avoid redundant boilerplate
-- Have reusable functions and/or base classes/modules for setup, execution and assertions.
-- Use table-driven tests if appropriate (example: single function, 6+ input/output permutations)
+**Do:**
+- Extract common setup/execution/assertion logic into reusable functions, base classes, or modules
+- Use table-driven tests for 6+ input/output permutations of a single function
+- Eliminate redundant boilerplate
+
+**Don't:**
+- Write DRY-violating test code with repeated setup/assertion patterns
 
 ## Test Execution
 
-ONLY run tests when executable source code was added/modified/removed, or the user requests it.
+**Conditions:** Only run tests if:
+- Executable source code was added, modified, or removed, OR
+- The user explicitly requests it
 
-ALWAYS redirect output using quiet mode:
+**Command format:** Always redirect to log with quiet mode:
 - `npm --silent test > test.log 2>&1`
 - `mvn --quiet --log-file=target/build.log test 2>&1`
 
-Read the log ONLY if exit code != 0.
+**Log inspection:** Read `test.log` only if exit code ≠ 0. Don't read on success.
 
-**Tests should be fast!**
-- Test execution should complete within 10 - 30 seconds, 1 minute max.
-- Always use a `timeout` to execute Bash shells for test execution.
-- If the test execution fails to timeout, surface to the user for next steps.
-- Users confirm known long-running tests. Adjust timeouts accordingly.
+**Speed requirement:** Test execution must complete in 10–30 seconds (max 1 minute).
+- **Do:** Use `timeout` when running test commands in Bash.
+- **If timeout fires:** Surface to user and await their next steps.
+- **If user confirms long-running tests:** Adjust timeout accordingly and document.
 
+## Test Debugging
+
+**Temporary code:** When debugging test failures via experimental source code:
+- Write temporary files to `tmp/` directory (relative to project root)
+- Delete temporary files when done
