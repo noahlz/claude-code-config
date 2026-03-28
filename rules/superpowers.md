@@ -7,3 +7,6 @@ Rules for using the "Superpowers" skill:
 - When planning:
   - DO NOT generate and write code to the implementation and execution plans.
   - Instead, define the higher level plan steps – what code should be written / tasks performed at each stage.
+- When executing:
+  - Use Agent-Driven development, 
+  - Delegate to Sonnet and Haiku agents for writing code and running/fixing tests.
