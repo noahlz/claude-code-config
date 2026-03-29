@@ -1,14 +1,16 @@
 #!/bin/bash
-# Blocks pipe-to-tee and destructive SQL commands hard (exit 2). Claude must ask user first.
-# Git and rm patterns are handled by dedicated scripts with `if` conditions in settings.hooks.json.
+# Blocks destructive git commands hard (exit 2). Claude must ask user first.
 
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 
 BLOCKED_PATTERNS=(
-  '\|\s*tee\b'
-  'drop table'
-  'drop database'
+  'git push --force'
+  'git push -f '
+  'git reset --hard'
+  'git checkout -- \.'
+  'git clean -f'
+  'git branch -D'
 )
 
 for pattern in "${BLOCKED_PATTERNS[@]}"; do

@@ -6,6 +6,16 @@
         "hooks": [
           {
             "type": "command",
+            "if": "Bash(git *)",
+            "command": "~/.claude/hooks/block-git-patterns.sh"
+          },
+          {
+            "type": "command",
+            "if": "Bash(rm *)",
+            "command": "~/.claude/hooks/block-rm-patterns.sh"
+          },
+          {
+            "type": "command",
             "command": "~/.claude/hooks/block-bash-patterns.sh"
           }
         ]
