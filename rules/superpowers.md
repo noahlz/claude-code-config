@@ -1,12 +1,15 @@
 # "Superpowers" Skill Rules
 
-Rules for using the "Superpowers" skill:
-- Save design and plan docs to the project `.claude/plans/` directory instead of `docs/`
-- DO NOT run `git` commands when executing the "Superpowers" skill. The user commits manually.
-- Pause before entering plan execution mode - the user may want to do it in a separate session.
-- When planning:
-  - DO NOT generate and write code to the implementation and execution plans.
-  - Instead, define the higher level plan steps – what code should be written / tasks performed at each stage.
-- When executing:
-  - Use Agent-Driven development, 
-  - Delegate to Sonnet and Haiku agents for writing code and running/fixing tests.
+- Save design and plan docs to `.claude/plans/`, not `docs/`.
+- Do NOT run `git` commands. The user commits manually.
+- Do NOT enter plan execution mode automatically. Stop and ask — the user may want a separate session.
+
+## Planning
+
+- Do NOT write full implementation code in plans. Use pseudocode, type signatures, or brief illustrative snippets only.
+- Define high-level steps: what code to write, what tasks to perform at each stage.
+
+## Executing
+
+- Use sub-agent-driven development.
+- Delegate research, code writing and test running/fixing to Sonnet and Haiku sub-agents.
