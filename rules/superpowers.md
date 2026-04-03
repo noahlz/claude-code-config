@@ -1,49 +1,48 @@
-# "Superpowers" Skill Rules
+# Superpowers Rules
 
-## CORE MANDATORY RULES
+These rules govern task orchestration and subagent delegation.
 
-- **MANDATORY** Do NOT run `git commit` commands. **ONLY** the user commits, manually, after you are done editing code.
-- Do **NOT** enter plan execution mode automatically. Stop and ask — the user may want a separate session.
+## HARD CONSTRAINTS
 
-## Planning
+1. **NEVER run `git commit`.** Only the user commits, manually.
+2. **NEVER enter plan execution mode automatically.** Stop and ask first.
+3. **NEVER write implementation code directly from the main chat.** Delegate ALL code writing, code review, and debugging to Sonnet/Haiku subagents.
+4. **Save plans to `.claude/plans/`.** Not `docs/`.
+5. **Plans contain pseudocode and type signatures only.** No full implementation code.
 
-- Save design and plan docs to `.claude/plans/`, not `docs/`.
-- Do NOT write full implementation code in plans. Use pseudocode, type signatures, or brief illustrative snippets only.
-- Define high-level steps: what code to write, what tasks to perform at each stage.
+## SUBAGENT DISPATCH RULES
 
-## Subagent Delegation
+When dispatching any subagent, you MUST include the following block verbatim at the top of its prompt:
 
-- ALL code writing, code review, and debugging MUST be delegated to Sonnet and Haiku subagents.
-- Opus orchestrates, plans, and reviews at a high level — it does not write or fix code directly.
+> **Subagent constraints — follow these exactly:**
+> - Do NOT run `git commit`. The user commits manually.
+> - Write tests alongside implementation code, not separately.
+> - Cap your work at 3–4 discrete steps. If you received more, stop and report back.
 
-## Integrated Testing
+### Batch size
 
-- Write tests alongside each code task, not batched into a final task.
-- Each subagent implements code + tests together so the reviewer checks both.
-- If a plan only touches documentation files (markdown, comments, READMEs), skip testing entirely — do not include test steps in the plan or run tests during execution.
+- 2–4 steps per subagent is the sweet spot.
+- If a task has 5+ steps, split it across multiple subagents before dispatching.
 
-## Selective Spec Reviews
+### Testing
 
-- Skip spec review for mechanical changes (find-replace renames, comment-only edits).
-- Use `grep` to verify mechanical renames instead.
-- Reserve spec reviews for logic changes.
+- Each subagent writes code + tests together. Never batch tests into a final step.
+- Exception: if the plan only touches documentation (markdown, comments, READMEs), skip testing entirely — no test steps in the plan, no test runs during execution.
 
-## Selective Code Quality Reviews
+## REVIEW RULES
 
-- Small targeted fixes to existing functions can skip code quality review.
-- Require code quality review for structural changes (e.g., data model restructures, new abstractions).
+### When to skip spec review
+- Mechanical changes (find-replace renames, comment-only edits): verify with `grep`, skip spec review.
+- All logic changes: require spec review.
 
-## Batch Size Cap
+### When to skip code quality review
+- Small targeted fixes to existing functions: skip.
+- Structural changes (new abstractions, data model changes): require code quality review.
 
-- Cap at 3–4 steps per subagent. 2–4 is the sweet spot.
-- If a task has 5+ steps, split it before dispatching.
+### Test assertion changes
+- When subagents modify existing test expectations, those changes MUST also be reviewed.
+- Test-quality review covers both new tests and modified assertions.
 
-## Review Modified Test Assertions
+## TS-SPECIFIC
 
-- When subagents update existing test expectations, those changes MUST also be reviewed.
-- Test-quality review covers both new tests and modified assertions in existing tests.
-
-## TS Language Server Restart (Node/TypeScript projects only)
-
-- After broad renames (e.g., variable/type renames across many files), restart the TS language server.
-- This prevents false-positive LSP diagnostics that persist for the rest of the session.
+After broad renames across many files in TypeScript projects, restart the TS language server to prevent stale LSP diagnostics.
