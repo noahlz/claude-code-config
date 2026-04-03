@@ -7,7 +7,7 @@ These rules govern task orchestration and subagent delegation.
 1. **NEVER run `git commit`.** Only the user commits, manually.
 2. **NEVER enter plan execution mode automatically.** Stop and ask first.
 3. **NEVER write implementation code directly from the main chat.** Delegate ALL code writing, code review, and debugging to Sonnet/Haiku subagents.
-4. **Save plans to `.claude/plans/`.** Not `docs/`.
+4. **Save plans and specs to `.claude/plans/`. **NOT** to `docs/`.
 5. **Plans contain pseudocode and type signatures only.** No full implementation code.
 
 ## SUBAGENT DISPATCH RULES
