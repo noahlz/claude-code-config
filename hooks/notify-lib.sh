@@ -4,6 +4,11 @@
 #
 # Environment variables:
 #   CLAUDE_NOTIFICATION_METHOD - "say" (default) or "notification" (macOS osascript)
+#   CLAUDE_SAY_VOICE           - macOS voice name (overrides ~/.claude/say-voice)
+#
+# Voice config file:
+#   ~/.claude/say-voice        - one line containing a macOS voice name (e.g. "Samantha")
+#                                Set via the set-say-voice skill. CLAUDE_SAY_VOICE takes precedence.
 
 notify() {
   local message="$1"
@@ -12,7 +17,16 @@ notify() {
   if [ "$METHOD" = "notification" ] && command -v osascript &>/dev/null; then
     osascript -e "display notification \"$message\" with title \"Claude Code\"" &
   elif [ "$METHOD" = "say" ] && command -v say &>/dev/null; then
-    say "$message" &
+    # Resolve voice: env var > config file > system default
+    local voice="${CLAUDE_SAY_VOICE:-}"
+    if [ -z "$voice" ] && [ -f "$HOME/.claude/say-voice" ]; then
+      voice="$(cat "$HOME/.claude/say-voice" | tr -d '[:space:]')"
+    fi
+    if [ -n "$voice" ]; then
+      say -v "$voice" "$message" &
+    else
+      say "$message" &
+    fi
   elif command -v powershell.exe &>/dev/null; then
     powershell.exe -Command \
       "if (Get-Module -ListAvailable -Name BurntToast) { \
