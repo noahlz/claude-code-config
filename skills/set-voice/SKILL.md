@@ -53,6 +53,14 @@ say -v "$voice" "Hello, I am $voice."
 cat ~/.claude/say-voice 2>/dev/null || echo "(using system default)"
 ```
 
+## Disable Notifications
+
+```bash
+echo "none" > ~/.claude/say-voice
+```
+
+Confirms to the user that audio notifications are now disabled.
+
 ## Clear / Reset to System Default
 
 ```bash
@@ -65,5 +73,6 @@ rm -f ~/.claude/say-voice
 2. If user named a voice → set it, test it
 3. If user said "list" or "show voices" → list available voices grouped by type/region
 4. If user said "show" or "what voice" → show current setting
-5. If user said "reset" or "default" → remove config file
-6. Always play a test phrase so the user can hear the result
+5. If user said "none" or "disable" or "turn off" → write "none" to say-voice, confirm disabled (no test phrase)
+6. If user said "reset" or "default" → remove config file
+7. Always play a test phrase so the user can hear the result (except for "none")

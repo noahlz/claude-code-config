@@ -14,6 +14,11 @@ notify() {
   local message="$1"
   local METHOD="${CLAUDE_NOTIFICATION_METHOD:-say}"
 
+  # Auto-disable audio when running inside Claude Desktop
+  if [ "$CLAUDE_CODE_ENTRYPOINT" = "desktop" ]; then
+    return 0
+  fi
+
   if [ "$METHOD" = "notification" ] && command -v osascript &>/dev/null; then
     osascript -e "display notification \"$message\" with title \"Claude Code\"" &
   elif [ "$METHOD" = "say" ] && command -v say &>/dev/null; then
@@ -22,7 +27,10 @@ notify() {
     if [ -z "$voice" ] && [ -f "$HOME/.claude/say-voice" ]; then
       voice="$(cat "$HOME/.claude/say-voice" | tr -d '[:space:]')"
     fi
-    if [ -n "$voice" ]; then
+    # "none" disables audio notifications (set via /set-voice none)
+    if [ "$voice" = "none" ]; then
+      return 0
+    elif [ -n "$voice" ]; then
       say -v "$voice" "$message" &
     else
       say "$message" &
