@@ -59,6 +59,11 @@ for f in "$REPO_DIR"/output-styles/*.md; do
   link "output-styles/$(basename "$f")"
 done
 
+for skill_dir in "$REPO_DIR"/skills/*/; do
+  skill_name="$(basename "$skill_dir")"
+  link "skills/$skill_name"
+done
+
 node "$REPO_DIR/install-settings.js"
 
 echo "Done."
