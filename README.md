@@ -23,6 +23,7 @@ Behaviors enforced by hooks:
   - macOS: uses `say` (audio) by default; set `CLAUDE_NOTIFICATION_METHOD=notification` for visual popups via `osascript`
   - Windows: uses PowerShell `BurntToast` if available; silently skipped otherwise
   - Linux: silently skipped (no built-in notification tool assumed)
+  - **Claude Desktop**: audio notifications are automatically disabled when running inside Claude Desktop
 
 ## Installation 
 
