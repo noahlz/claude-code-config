@@ -12,7 +12,7 @@ These rules govern task orchestration and subagent delegation.
 
 ## SUBAGENT DISPATCH RULES
 
-When dispatching any subagent, you MUST include the following block verbatim at the top of its prompt:
+Include this block verbatim at the top of every subagent prompt:
 
 > **Subagent constraints — follow these exactly:**
 > - Do NOT run `git commit`. The user commits manually.
@@ -21,28 +21,34 @@ When dispatching any subagent, you MUST include the following block verbatim at 
 
 ### Batch size
 
-- 2–4 steps per subagent is the sweet spot.
+- 2–4 steps per subagent.
 - If a task has 5+ steps, split it across multiple subagents before dispatching.
+- If two adjacent tasks are logically related and total ≤4 steps combined, fold them into a single subagent dispatch.
+
+### Parallel dispatch
+Two or more tasks with no shared state: dispatch in parallel. Don't serialize independent work.
+
+### Pre-read before dispatch
+Read files the task will touch. Include relevant excerpts (type signatures, function signatures, affected logic) in the subagent prompt. Don't make subagents re-discover context you already have.
 
 ### Testing
 
 - Each subagent writes code + tests together. Never batch tests into a final step.
-- Exception: if the plan only touches documentation (markdown, comments, READMEs), skip testing entirely — no test steps in the plan, no test runs during execution.
-
-## REVIEW RULES
-
-### When to skip spec review
-- Mechanical changes (find-replace renames, comment-only edits): verify with `grep`, skip spec review.
-- All logic changes: require spec review.
-
-### When to skip code quality review
-- Small targeted fixes to existing functions: skip.
-- Structural changes (new abstractions, data model changes): require code quality review.
-
-### Test assertion changes
+- Exception: documentation-only plans (markdown, comments, READMEs) — skip testing entirely.
 - When subagents modify existing test expectations, those changes MUST also be reviewed.
 - Test-quality review covers both new tests and modified assertions.
 
+## WORKTREE POLICY
+
+Ask the user before creating worktrees. Use isolated worktrees for parallel subagents to prevent conflicts.
+
+## REVIEW RULES
+
+### Mechanical tasks — skip both spec review and code quality review
+Tasks that only connect existing pieces without introducing new logic: find-replace renames, comment-only edits, adding entries to a registry, wiring a component to an existing interface, updating imports after a rename. Verify with `grep` instead.
+
+### Logic changes — require spec review. Structural changes — require code quality review.
+
 ## TS-SPECIFIC
 
-After broad renames across many files in TypeScript projects, restart the TS language server to prevent stale LSP diagnostics.
+After any task that touches TypeScript files, restart the TS language server to prevent stale LSP diagnostics.
