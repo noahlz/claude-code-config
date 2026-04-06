@@ -2,13 +2,10 @@
 
 ## Writing Tests
 
-**Do:**
-- Extract common setup/execution/assertion logic into reusable functions, base classes, or modules
-- Use table-driven tests for 6+ input/output permutations of a single function
-- Eliminate redundant boilerplate
-
-**Don't:**
-- Write DRY-violating test code with repeated setup/assertion patterns
+- Factor shared setup, execution, and assertion logic into helpers, fixtures, or base classes.
+- Use table-driven / parameterized tests for 6+ input/output combinations of the same function.
+- Each test asserts one behavior; name it after that behavior, not the method under test.
+- No duplicated setup or assertions — if copying, extract.
 
 ## Test Execution
 
