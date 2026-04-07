@@ -17,6 +17,22 @@ if [ "$(whoami)" != "noahlz" ]; then
   exit 1
 fi
 
+cleanup_stale_links() {
+  local dir="$1"
+  local dir_name="$2"
+
+  if [ ! -d "$dir" ]; then
+    return
+  fi
+
+  while IFS= read -r -d '' link; do
+    if [ -L "$link" ] && ! [ -e "$link" ]; then
+      echo "  clean   $(basename "$link") (stale symlink)"
+      rm "$link"
+    fi
+  done < <(find "$dir" -maxdepth 1 -type l -print0 2>/dev/null)
+}
+
 link() {
   local src="$REPO_DIR/$1"
   local dst="$CLAUDE_DIR/${2:-$1}"
@@ -45,6 +61,9 @@ link() {
 echo "Installing claude-code-config to $CLAUDE_DIR"
 echo ""
 
+cleanup_stale_links "$CLAUDE_DIR/rules" "rules"
+cleanup_stale_links "$CLAUDE_DIR/references" "references"
+
 link CLAUDE-user.md CLAUDE.md
 
 for f in "$REPO_DIR"/hooks/*.sh; do
@@ -53,6 +72,10 @@ done
 
 for f in "$REPO_DIR"/rules/*.md; do
   link "rules/$(basename "$f")"
+done
+
+for f in "$REPO_DIR"/references/*.md; do
+  link "references/$(basename "$f")"
 done
 
 for f in "$REPO_DIR"/output-styles/*.md; do

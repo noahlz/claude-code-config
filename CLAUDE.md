@@ -16,7 +16,7 @@ If tests failed, examine `test.log` for details.
 
 ## Maintenance
 
-After adding, removing, or renaming files in `hooks/`, `rules/`, or `output-styles/`,
+After adding, removing, or renaming files in `hooks/`, `rules/`, `references/`, or `output-styles/`,
 prompt the user to re-run `./install.sh` so changes are reflected in `~/.claude`.
 
 ## References

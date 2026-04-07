@@ -10,4 +10,4 @@ These rules govern task orchestration and subagent delegation.
 4. Save plans and specs to `.claude/plans/`. **NOT** to `docs/`.
 5. **Only write pseudocode and type signatures in plans.** Not full implementation code.
 
-- Reference [`rules/subagent-development.md`](subagent-development.md) for subagent dispatch, review, worktree, and testing rules.
+- Reference [`references/subagent-development.md`](subagent-development.md) for subagent dispatch, review, worktree, and testing rules.

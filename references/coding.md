@@ -1,4 +1,6 @@
-# Comments
+# Coding
+
+## Comments
 
 DO add comments that:
 - Explain non-obvious code: workarounds, tricky bug fixes, performance tradeoffs, deliberately non-idiomatic patterns
@@ -17,3 +19,13 @@ But DO NOT add comments that merely restate the next line:
 // Log the sum
 console.log(1 + 1)
 ```
+
+## Bash Commands
+
+Before running: one sentence explaining purpose (unless a skill workflow says otherwise).
+After running: say nothing on success (exit 0). Read logs only on failure (exit != 0).
+
+## IDE Integration
+
+Use IDE/LSP tools (getDiagnostics, goToDefinition, findReferences) before Search/Grep/Find.
+Fall back to standard tools only if LSP returns no results.

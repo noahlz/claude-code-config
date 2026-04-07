@@ -42,4 +42,4 @@ Tasks that only connect existing pieces without introducing new logic: find-repl
 
 ### Logic changes — require spec review. Structural changes — require code quality review.
 
-- Reference [`rules/typescript.md`](typescript.md) when working in TypeScript projects.
+- Reference [`references/typescript.md`](typescript.md) when working in TypeScript projects.
