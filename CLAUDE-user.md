@@ -1,11 +1,11 @@
 # Rules and When to Read Them
 
-<!-- insert directive here -->
+**REQUIRED**: If your task matches a row below, read that file.
 
 | When | Read |
 |------|------|
-| Writing or editing code | [`./references/coding.md`](./references/coding.md) |
-| Writing or running tests | [`./references/testing.md`](./references/testing.md) |
-| Working in TypeScript projects | [`./references/typescript.md`](./references/typescript.md) |
-| Using superpowers skills | [`./references/superpowers.md`](./references/superpowers.md) |
+| Writing code | [`./references/coding.md`](./references/coding.md) |
+| Writing or fixing tests | [`./references/testing.md`](./references/testing.md) |
+| Working on TypeScript projects | [`./references/typescript.md`](./references/typescript.md) |
+| Using Superpowers skills | [`./references/superpowers.md`](./references/superpowers.md) |
 | Dispatching subagents | [`./references/subagent-development.md`](./references/subagent-development.md) |
