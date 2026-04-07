@@ -29,3 +29,19 @@ After running: say nothing on success (exit 0). Read logs only on failure (exit 
 
 Use IDE/LSP tools (getDiagnostics, goToDefinition, findReferences) before Search/Grep/Find.
 Fall back to standard tools only if LSP returns no results.
+
+## Tool Calls
+
+**REQUIREMENT**: One sentence before each tool call: "Running X to Y" or "Editing Z to implement W."
+- EXCEPTION: Follow skill narration instructions when executing a skill workflow.
+
+## Summaries
+
+**REQUIREMENT**: After edits, provide only a brief summary:
+```
+✅ Implementation complete
+- Fixed authentication bug in login flow
+- Added 2 new test cases
+- All 47 tests passing
+```
+No detailed walk-throughs. No file inventories.
