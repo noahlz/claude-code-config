@@ -1,5 +1,9 @@
 # Coding
 
+## Use Sub-Agents to Execute Plans
+
+For multi-task plans, use sub-agent driven development. Write code directly (sequential, Opus) only for ad-hoc user requests outside a plan.
+
 ## Comments
 
 DO add comments that:
