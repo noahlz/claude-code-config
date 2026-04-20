@@ -62,6 +62,17 @@
         ]
       }
     ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/notify-on-permission.sh"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [

@@ -10,7 +10,7 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 **Use hooks, not prompt instructions.** Hard rules belong in hooks, not "reminders" to the LLM. Hooks are enforced mechanically. Instructions are mere suggestions that waste context (and tokens!).
 
-**Cross-platform notifications for long tasks.** Do you scroll the Internet while Claude is working? Have Claude send a notification when a long-running turn completes. Configurable with `CLAUDE_NOTIFICATION_THRESHOLD` (default 120 seconds) and `CLAUDE_NOTIFICATION_METHOD` (default `say`; use `notification` for visual popups).
+**Cross-platform notifications for long tasks.** Get alerted when Claude finishes long-running work. Configurable and customizable — see [Notifications](#notifications).
 
 **Terse output style** Use flat language, avoid synchopatic filler phrases ("Great idea!", "You're absolutely right!"). Summarize edits concisely. Less noise, direct feedback.
 
@@ -19,11 +19,28 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 Behaviors enforced by hooks:
 
 - Hard block destructive commands such as `rm -rf` and `drop table users`
-- Send notifications at the end of long-running turns (default: 120 seconds)
-  - macOS: uses `say` (audio) by default; set `CLAUDE_NOTIFICATION_METHOD=notification` for visual popups via `osascript`
-  - Windows: uses PowerShell `BurntToast` if available; silently skipped otherwise
-  - Linux: silently skipped (no built-in notification tool assumed)
-  - **Claude Desktop**: audio notifications are automatically disabled when running inside Claude Desktop
+- Send notifications at the end of long-running turns
+- Fire OS notifications for permission prompts (macOS)
+
+## Notifications
+
+### Stop-notification (long-running turns)
+
+When Claude finishes a turn, a notification fires if it took longer than `CLAUDE_NOTIFICATION_THRESHOLD` (default 120s). Set via `CLAUDE_NOTIFICATION_METHOD`:
+
+- **macOS**: `say` (audio, default) – reads completion message aloud. Set to `notification` for visual popup via `osascript`. Disabled inside Claude Desktop.
+- **Windows**: `BurntToast` PowerShell popup (if available); silently skipped otherwise.
+- **Linux**: Silently skipped.
+
+### Permission-prompt notifications (macOS)
+
+The `notify-on-permission.sh` hook fires an immediate notification whenever Claude Code needs tool-use permission, naming the specific request (e.g., `Bash: /bin/rm /tmp/foo`). Audio is the `Blow.aiff` chime via `afplay`, bypassing per-app sound gating.
+
+Install `terminal-notifier` (`brew install terminal-notifier`) for grouped alerts and click-to-focus the originating terminal; otherwise uses `osascript`. Override target app via `CLAUDE_PERMISSION_TERMINAL_BUNDLE` env var or `~/.claude/permission-terminal-bundle` file (set to `none` to disable; defaults to `$TERM_PROGRAM`). Click-to-focus is best-effort on macOS 11+ due to Apple's restrictions.
+
+### Voice customization (macOS)
+
+By default, stop-notifications use the system voice set in System Settings. To override, create `~/.claude/voice` with a voice name (e.g., `Fred`, `Victoria`), or use the `set-voice` CLI command to list available voices, pick randomly, or set a specific voice.
 
 ## Installation 
 

@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+import { appendFileSync } from 'node:fs';
+const log = process.env.NOTIFIER_LOG ?? '/tmp/terminal-notifier-calls.log';
+appendFileSync(log, process.argv.slice(2).join('\t') + '\n');

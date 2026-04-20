@@ -1,0 +1,5 @@
+#!/bin/sh
+# Stub for tests. The hook only uses `command -v tmux` to detect availability
+# and builds a tmux-select-pane command as a string for terminal-notifier's
+# -execute flag. That string is inspected by assertions, never executed here.
+exit 0

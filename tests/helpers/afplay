@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+import { appendFileSync } from 'node:fs';
+const log = process.env.AFPLAY_LOG ?? '/tmp/afplay-calls.log';
+appendFileSync(log, process.argv.slice(2).join(' ') + '\n');
