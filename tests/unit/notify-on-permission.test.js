@@ -94,7 +94,7 @@ describe('notify-on-permission.sh', () => {
       await sleep(300);
       const args = readNotifierArgs();
       assert.ok(args, 'terminal-notifier should have been called');
-      assert.ok(args.includes('-title') && args[args.indexOf('-title') + 1] === 'Claude Code');
+      assert.ok(args.includes('-title') && args[args.indexOf('-title') + 1] === 'Claude Code needs your attention');
       assert.ok(args.includes('-group') && args[args.indexOf('-group') + 1] === 'claude-code-permission');
     });
 
@@ -107,33 +107,36 @@ describe('notify-on-permission.sh', () => {
       assert.equal(args[idx + 1], 'Ping');
     });
 
-    test('does not invoke osascript, afplay, or say when terminal-notifier handles sound', async () => {
+    test('invokes afplay with Ping.aiff alongside terminal-notifier (reliable sound)', async () => {
+      runHook();
+      await sleep(300);
+      assert.ok(existsSync(afplayLog), 'afplay should be called');
+      const logged = readFileSync(afplayLog, 'utf8');
+      assert.ok(logged.includes('/System/Library/Sounds/Ping.aiff'), `expected Ping.aiff, got: ${logged}`);
+    });
+
+    test('does not invoke osascript or say when terminal-notifier available', async () => {
       runHook();
       await sleep(300);
       assert.ok(!existsSync(notifyLog), 'osascript must not be called');
-      assert.ok(!existsSync(afplayLog), 'afplay must not be called');
       assert.ok(!existsSync(sayLog), 'say must not be called');
     });
 
-    test('sender=none via config file omits -sender', async () => {
-      writeFileSync(join(testHome, '.claude', 'permission-sender'), 'none');
+    test('never passes -sender (macOS icon restriction means it adds no value)', async () => {
       runHook();
       await sleep(300);
       const args = readNotifierArgs();
-      assert.ok(args, 'terminal-notifier should have been called');
-      assert.ok(!args.includes('-sender'), '-sender must be omitted when sender=none');
+      assert.ok(!args.includes('-sender'), '-sender must not be set');
     });
 
-    test('TMUX_PANE set → uses -execute with tmux commands', async () => {
+    test('inside tmux still uses -activate, not -execute (macOS 11+ restricts -execute)', async () => {
       runHook({ env: { TMUX_PANE: '%42', TERM_PROGRAM: 'Apple_Terminal' } });
       await sleep(300);
       const args = readNotifierArgs();
-      const idx = args.indexOf('-execute');
-      assert.ok(idx >= 0, '-execute must be present when TMUX_PANE is set');
-      const exec = args[idx + 1];
-      assert.ok(exec.includes('tmux select-pane'), `expected tmux select-pane in -execute, got: ${exec}`);
-      assert.ok(exec.includes('%42'), `expected pane id %42 in -execute, got: ${exec}`);
-      assert.ok(exec.includes('com.apple.Terminal'), `expected terminal bundle id in -execute, got: ${exec}`);
+      assert.ok(!args.includes('-execute'), '-execute must NOT be used (unreliable on macOS 11+)');
+      const idx = args.indexOf('-activate');
+      assert.ok(idx >= 0, '-activate must be present');
+      assert.equal(args[idx + 1], 'com.apple.Terminal');
     });
 
     test('no TMUX_PANE, TERM_PROGRAM=iTerm.app → uses -activate with iTerm bundle', async () => {
@@ -142,6 +145,27 @@ describe('notify-on-permission.sh', () => {
       const args = readNotifierArgs();
       const idx = args.indexOf('-activate');
       assert.ok(idx >= 0, '-activate must be present');
+      assert.equal(args[idx + 1], 'com.googlecode.iterm2');
+    });
+
+    test('__CFBundleIdentifier takes precedence over LC_TERMINAL and TERM_PROGRAM', async () => {
+      runHook({ env: {
+        __CFBundleIdentifier: 'com.googlecode.iterm2',
+        LC_TERMINAL: 'iTerm2',
+        TERM_PROGRAM: 'tmux',
+      } });
+      await sleep(300);
+      const args = readNotifierArgs();
+      const idx = args.indexOf('-activate');
+      assert.equal(args[idx + 1], 'com.googlecode.iterm2', 'should use __CFBundleIdentifier first');
+    });
+
+    test('LC_TERMINAL=iTerm2 resolves to iTerm bundle when inside tmux (TERM_PROGRAM=tmux)', async () => {
+      // Common tmux+iTerm2 case: __CFBundleIdentifier unset, TERM_PROGRAM hidden by tmux
+      runHook({ env: { LC_TERMINAL: 'iTerm2', TERM_PROGRAM: 'tmux' } });
+      await sleep(300);
+      const args = readNotifierArgs();
+      const idx = args.indexOf('-activate');
       assert.equal(args[idx + 1], 'com.googlecode.iterm2');
     });
 
@@ -159,7 +183,6 @@ describe('notify-on-permission.sh', () => {
       await sleep(300);
       const args = readNotifierArgs();
       assert.ok(!args.includes('-activate'), '-activate must be absent when bundle=none');
-      assert.ok(!args.includes('-execute'), '-execute must be absent when bundle=none (no tmux)');
     });
 
     // Transcript parsing: specific tool request in message body
@@ -254,12 +277,13 @@ describe('notify-on-permission.sh', () => {
       assert.equal(runHook({ helpersDir: HELPERS_NO_NOTIFIER }).status, 0);
     });
 
-    test('invokes osascript display notification with sound name "Ping"', async () => {
+    test('invokes osascript display notification with title + sound name "Ping"', async () => {
       runHook({ helpersDir: HELPERS_NO_NOTIFIER });
       await sleep(300);
       assert.ok(existsSync(notifyLog), 'osascript should be called');
       const logged = readFileSync(notifyLog, 'utf8');
       assert.ok(logged.includes('display notification'), `expected notification, got: ${logged}`);
+      assert.ok(logged.includes('Claude Code needs your attention'), `expected new title, got: ${logged}`);
       assert.ok(logged.includes('sound name "Ping"'), `expected sound name Ping, got: ${logged}`);
     });
 

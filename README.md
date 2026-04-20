@@ -30,16 +30,17 @@ Behaviors enforced by hooks:
 
 The `notify-on-permission.sh` hook fires a visual notification whenever Claude Code needs tool-use permission. The body names the specific request (e.g., `Bash: /bin/rm /tmp/foo`, `Read: notify-lib.sh`) parsed from the session transcript.
 
-**Optional dependency — `terminal-notifier`** (`brew install terminal-notifier`): enables the Claude icon, grouped alerts that replace prior ones, and click-to-focus the originating tmux pane; otherwise the hook falls back to `osascript`. `install.sh` prints a one-line suggestion if it's missing — no auto-install.
+**Optional dependency — `terminal-notifier`** (`brew install terminal-notifier`): enables grouped alerts that replace prior ones and click-to-focus the originating tmux pane; otherwise the hook falls back to `osascript`. `install.sh` prints a one-line suggestion if it's missing — no auto-install. On macOS 11+ the banner always shows terminal-notifier's own icon; Apple restricts third-party tools from setting a custom icon.
 
-Audio is the classic macOS `Ping` chime (`/System/Library/Sounds/Ping.aiff`) — a short, notification-y tone. Hardcoded because macOS exposes no global "notification sound" preference and the new Sonoma+ alert sounds aren't addressable by name. Two optional overrides:
+Audio is the classic macOS `Ping` chime (`/System/Library/Sounds/Ping.aiff`) played directly via `afplay` to bypass per-app notification-sound gating. Hardcoded because macOS exposes no global "notification sound" preference and the Sonoma+ alert sounds aren't addressable by name.
 
-| Env var / config file                                                       | Purpose                                                    | Default |
-|-----------------------------------------------------------------------------|------------------------------------------------------------|---------|
-| `CLAUDE_PERMISSION_SENDER` / `~/.claude/permission-sender`                  | Bundle ID used as the notification's sender. `none` to skip. | `com.anthropic.claudefordesktop` if Claude Desktop installed |
-| `CLAUDE_PERMISSION_TERMINAL_BUNDLE` / `~/.claude/permission-terminal-bundle` | Bundle ID to activate on click. `none` to disable.         | auto-detected from `$TERM_PROGRAM` |
+One optional override:
 
-Inside `tmux`, clicking the notification switches to the originating pane (via `$TMUX_PANE`) and activates the terminal app.
+| Env var / config file                                                       | Purpose                                             | Default |
+|-----------------------------------------------------------------------------|-----------------------------------------------------|---------|
+| `CLAUDE_PERMISSION_TERMINAL_BUNDLE` / `~/.claude/permission-terminal-bundle` | Bundle ID to activate on click. `none` to disable. | auto-detected from `$TERM_PROGRAM` |
+
+Click-to-focus (activating the terminal app on click via terminal-notifier's `-activate`) is best-effort — macOS 11+ has progressively restricted notification click handlers for unsigned third-party tools, so on some setups the click dismisses the banner without activating anything. The notification itself (banner, title, specific body, sound) works regardless.
 
 ## Installation 
 
