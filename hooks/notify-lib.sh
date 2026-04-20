@@ -117,8 +117,8 @@ notify_visual() {
     # terminal-notifier's -sound depends on the tool's Notifications permission
     # allowing sound (often off by default). Play Ping directly via afplay so
     # sound is reliable regardless of per-app settings.
-    if command -v afplay &>/dev/null && [ -f "/System/Library/Sounds/Ping.aiff" ]; then
-      afplay /System/Library/Sounds/Ping.aiff &
+    if command -v afplay &>/dev/null; then
+      afplay /System/Library/Sounds/Ping.aiff &>/dev/null &
     fi
 
     local args=(-title "Claude Code needs your attention" -message "$message" -group "claude-code-permission" -sound Ping)
@@ -141,8 +141,8 @@ notify_visual() {
     osascript -e "display notification \"$message\" with title \"Claude Code needs your attention\" sound name \"Ping\"" &
     # osascript's sound clause depends on Script Editor's notification-sound
     # setting; play via afplay too so the sound is reliable.
-    if command -v afplay &>/dev/null && [ -f "/System/Library/Sounds/Ping.aiff" ]; then
-      afplay /System/Library/Sounds/Ping.aiff &
+    if command -v afplay &>/dev/null; then
+      afplay /System/Library/Sounds/Ping.aiff &>/dev/null &
     fi
     return 0
   fi
