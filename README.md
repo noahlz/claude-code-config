@@ -24,6 +24,22 @@ Behaviors enforced by hooks:
   - Windows: uses PowerShell `BurntToast` if available; silently skipped otherwise
   - Linux: silently skipped (no built-in notification tool assumed)
   - **Claude Desktop**: audio notifications are automatically disabled when running inside Claude Desktop
+- Fire an OS notification when Claude Code is waiting on a permission prompt (macOS), so you notice even if you've switched to another terminal
+
+### Permission-prompt notifications (macOS)
+
+The `notify-on-permission.sh` hook fires a visual notification whenever Claude Code needs tool-use permission. The body names the specific request (e.g., `Bash: /bin/rm /tmp/foo`, `Read: notify-lib.sh`) parsed from the session transcript.
+
+**Optional dependency — `terminal-notifier`** (`brew install terminal-notifier`): enables the Claude icon, grouped alerts that replace prior ones, and click-to-focus the originating tmux pane; otherwise the hook falls back to `osascript`. `install.sh` prints a one-line suggestion if it's missing — no auto-install.
+
+Audio is the classic macOS `Ping` chime (`/System/Library/Sounds/Ping.aiff`) — a short, notification-y tone. Hardcoded because macOS exposes no global "notification sound" preference and the new Sonoma+ alert sounds aren't addressable by name. Two optional overrides:
+
+| Env var / config file                                                       | Purpose                                                    | Default |
+|-----------------------------------------------------------------------------|------------------------------------------------------------|---------|
+| `CLAUDE_PERMISSION_SENDER` / `~/.claude/permission-sender`                  | Bundle ID used as the notification's sender. `none` to skip. | `com.anthropic.claudefordesktop` if Claude Desktop installed |
+| `CLAUDE_PERMISSION_TERMINAL_BUNDLE` / `~/.claude/permission-terminal-bundle` | Bundle ID to activate on click. `none` to disable.         | auto-detected from `$TERM_PROGRAM` |
+
+Inside `tmux`, clicking the notification switches to the originating pane (via `$TMUX_PANE`) and activates the terminal app.
 
 ## Installation 
 

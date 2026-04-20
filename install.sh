@@ -89,4 +89,19 @@ done
 
 node "$REPO_DIR/install-settings.js"
 
+# Optional dependency check: terminal-notifier improves permission-prompt notifications
+# (custom app identity, reliable sound, grouped alerts). The hook still works without it
+# via osascript + afplay fallback.
+if ! command -v terminal-notifier &>/dev/null; then
+  echo ""
+  if command -v brew &>/dev/null; then
+    echo "  ℹ Optional: brew install terminal-notifier"
+    echo "    Enables Claude icon + grouped permission notifications."
+  else
+    echo "  ℹ Optional: install terminal-notifier for improved permission notifications."
+    echo "    (Homebrew not detected; see README for details.)"
+  fi
+fi
+
+echo ""
 echo "Done."
