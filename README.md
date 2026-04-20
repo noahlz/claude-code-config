@@ -34,7 +34,7 @@ When Claude finishes a turn, a notification fires if it took longer than `CLAUDE
 
 ### Permission-prompt notifications (macOS)
 
-The `notify-on-permission.sh` hook fires an immediate notification whenever Claude Code needs tool-use permission, naming the specific request (e.g., `Bash: /bin/rm /tmp/foo`). Audio is the `Ping.aiff` chime via `afplay`, bypassing per-app sound gating.
+The `notify-on-permission.sh` hook fires an immediate notification whenever Claude Code needs tool-use permission, naming the specific request (e.g., `Bash: /bin/rm /tmp/foo`). Audio is the `Blow.aiff` chime via `afplay`, bypassing per-app sound gating.
 
 Install `terminal-notifier` (`brew install terminal-notifier`) for grouped alerts and click-to-focus the originating terminal; otherwise uses `osascript`. Override target app via `CLAUDE_PERMISSION_TERMINAL_BUNDLE` env var or `~/.claude/permission-terminal-bundle` file (set to `none` to disable; defaults to `$TERM_PROGRAM`). Click-to-focus is best-effort on macOS 11+ due to Apple's restrictions.
 

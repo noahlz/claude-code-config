@@ -16,12 +16,7 @@
 #                                Set via the set-say-voice skill. CLAUDE_SAY_VOICE takes precedence.
 #
 # Audio for permission notifications (notify_visual):
-#   Plays /System/Library/Sounds/Ping.aiff — a classic short notification tone.
-#   macOS doesn't expose a global "notification sound" preference, and the
-#   Sonoma+ alert sounds (Boop, Breeze, etc.) aren't addressable by name via
-#   the programmatic notification APIs, so we hardcode Ping for predictability.
-#   No customization exposed; edit this file or set the system-wide sound to
-#   mute at the macOS level if you want it silenced.
+#   Plays /System/Library/Sounds/Blow.aiff — a classic short notification tone.
 #
 # Optional dependency:
 #   terminal-notifier (brew install terminal-notifier)
@@ -115,13 +110,13 @@ notify_visual() {
 
   if command -v terminal-notifier &>/dev/null; then
     # terminal-notifier's -sound depends on the tool's Notifications permission
-    # allowing sound (often off by default). Play Ping directly via afplay so
+    # allowing sound (often off by default). Play Blow directly via afplay so
     # sound is reliable regardless of per-app settings.
     if command -v afplay &>/dev/null; then
-      afplay /System/Library/Sounds/Ping.aiff &>/dev/null &
+      afplay /System/Library/Sounds/Blow.aiff &>/dev/null &
     fi
 
-    local args=(-title "Claude Code needs your attention" -message "$message" -group "claude-code-permission" -sound Ping)
+    local args=(-title "Claude Code needs your attention" -message "$message" -group "claude-code-permission" -sound Blow)
 
     # Click-to-focus: activate the terminal app.
     # We don't use -execute to also select the tmux pane because macOS 11+
@@ -138,11 +133,11 @@ notify_visual() {
   fi
 
   if command -v osascript &>/dev/null; then
-    osascript -e "display notification \"$message\" with title \"Claude Code needs your attention\" sound name \"Ping\"" &
+    osascript -e "display notification \"$message\" with title \"Claude Code needs your attention\" sound name \"Blow\"" &
     # osascript's sound clause depends on Script Editor's notification-sound
     # setting; play via afplay too so the sound is reliable.
     if command -v afplay &>/dev/null; then
-      afplay /System/Library/Sounds/Ping.aiff &>/dev/null &
+      afplay /System/Library/Sounds/Blow.aiff &>/dev/null &
     fi
     return 0
   fi

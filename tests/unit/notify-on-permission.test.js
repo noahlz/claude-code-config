@@ -98,21 +98,21 @@ describe('notify-on-permission.sh', () => {
       assert.ok(args.includes('-group') && args[args.indexOf('-group') + 1] === 'claude-code-permission');
     });
 
-    test('passes -sound Ping', async () => {
+    test('passes -sound Blow', async () => {
       runHook();
       await sleep(300);
       const args = readNotifierArgs();
       const idx = args.indexOf('-sound');
       assert.ok(idx >= 0, '-sound must be present');
-      assert.equal(args[idx + 1], 'Ping');
+      assert.equal(args[idx + 1], 'Blow');
     });
 
-    test('invokes afplay with Ping.aiff alongside terminal-notifier (reliable sound)', async () => {
+    test('invokes afplay with Blow.aiff alongside terminal-notifier (reliable sound)', async () => {
       runHook();
       await sleep(300);
       assert.ok(existsSync(afplayLog), 'afplay should be called');
       const logged = readFileSync(afplayLog, 'utf8');
-      assert.ok(logged.includes('/System/Library/Sounds/Ping.aiff'), `expected Ping.aiff, got: ${logged}`);
+      assert.ok(logged.includes('/System/Library/Sounds/Blow.aiff'), `expected Blow.aiff, got: ${logged}`);
     });
 
     test('does not invoke osascript or say when terminal-notifier available', async () => {
@@ -277,22 +277,22 @@ describe('notify-on-permission.sh', () => {
       assert.equal(runHook({ helpersDir: HELPERS_NO_NOTIFIER }).status, 0);
     });
 
-    test('invokes osascript display notification with title + sound name "Ping"', async () => {
+    test('invokes osascript display notification with title + sound name "Blow"', async () => {
       runHook({ helpersDir: HELPERS_NO_NOTIFIER });
       await sleep(300);
       assert.ok(existsSync(notifyLog), 'osascript should be called');
       const logged = readFileSync(notifyLog, 'utf8');
       assert.ok(logged.includes('display notification'), `expected notification, got: ${logged}`);
       assert.ok(logged.includes('Claude Code needs your attention'), `expected new title, got: ${logged}`);
-      assert.ok(logged.includes('sound name "Ping"'), `expected sound name Ping, got: ${logged}`);
+      assert.ok(logged.includes('sound name "Blow"'), `expected sound name Blow, got: ${logged}`);
     });
 
-    test('invokes afplay with Ping.aiff for reliable sound', async () => {
+    test('invokes afplay with Blow.aiff for reliable sound', async () => {
       runHook({ helpersDir: HELPERS_NO_NOTIFIER });
       await sleep(300);
       assert.ok(existsSync(afplayLog), 'afplay should be called');
       const logged = readFileSync(afplayLog, 'utf8');
-      assert.ok(logged.includes('/System/Library/Sounds/Ping.aiff'), `expected Ping.aiff, got: ${logged}`);
+      assert.ok(logged.includes('/System/Library/Sounds/Blow.aiff'), `expected Blow.aiff, got: ${logged}`);
     });
 
     test('never invokes say', async () => {
