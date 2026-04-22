@@ -75,7 +75,9 @@ describe('notify-on-permission.sh', () => {
     notifierLog = join(testHome, 'terminal-notifier-calls.log');
     afplayLog = join(testHome, 'afplay-calls.log');
     transcriptPath = join(testHome, 'transcript.jsonl');
-    mkdirSync(join(testHome, '.claude'), { recursive: true });
+    mkdirSync(join(testHome, '.claude', 'tmp'), { recursive: true });
+    // Remove any stale pending-tool file so it doesn't leak between tests
+    rmSync(join(testHome, '.claude', 'tmp', `pending-tool-${SESSION}`), { force: true });
   });
 
   afterEach(() => {
@@ -201,7 +203,7 @@ describe('notify-on-permission.sh', () => {
       writeTranscript([
         { type: 'tool_use', name: 'Read', input: { file_path: '/Users/noahlz/projects/foo/bar/baz.ts' } },
       ]);
-      runHook();
+      runHook({ payload: { message: 'Claude needs your permission to use Read' } });
       await sleep(300);
       const args = readNotifierArgs();
       const idx = args.indexOf('-message');
@@ -212,7 +214,7 @@ describe('notify-on-permission.sh', () => {
       writeTranscript([
         { type: 'tool_use', name: 'Grep', input: { pattern: 'TODO.*fix' } },
       ]);
-      runHook();
+      runHook({ payload: { message: 'Claude needs your permission to use Grep' } });
       await sleep(300);
       const args = readNotifierArgs();
       const idx = args.indexOf('-message');
@@ -246,12 +248,86 @@ describe('notify-on-permission.sh', () => {
       assert.ok(body.startsWith('Bash: '), `expected Bash prefix, got: ${body}`);
     });
 
-    test('missing transcript falls back to payload message', async () => {
+    // Strategy 1: pending tool file written by record-pending-tool.sh PreToolUse hook
+    test('pending tool file → uses that name (AskUserQuestion with generic message)', async () => {
+      // Write to testHome/.claude/tmp/ — the hook reads $HOME/.claude/tmp/ and HOME=testHome in env
+      const pendingFile = join(testHome, '.claude', 'tmp', `pending-tool-${SESSION}`);
+      writeFileSync(pendingFile, 'AskUserQuestion\n');
+      runHook({ payload: { message: 'Claude Code needs your attention' } });
+      await sleep(300);
+      const args = readNotifierArgs();
+      const idx = args.indexOf('-message');
+      assert.equal(args[idx + 1], 'AskUserQuestion');
+    });
+
+    test('missing transcript falls back to tool name parsed from message', async () => {
       runHook({ payload: { transcript_path: '/nonexistent/path' } });
       await sleep(300);
       const args = readNotifierArgs();
       const idx = args.indexOf('-message');
-      assert.equal(args[idx + 1], 'Claude needs your permission to use Bash');
+      assert.equal(args[idx + 1], 'Bash');
+    });
+
+    test('message parse falls back to raw message when pattern does not match', async () => {
+      runHook({ payload: { message: 'Something unexpected', transcript_path: '/nonexistent/path' } });
+      await sleep(300);
+      const args = readNotifierArgs();
+      const idx = args.indexOf('-message');
+      assert.equal(args[idx + 1], 'Something unexpected');
+    });
+
+    // Strategy 1: tool name in .message (e.g. Bash, Read). This was the original
+    // ToolSearch regression case — the fix ensures we use .message, not transcript tail.
+    test('AskUserQuestion in .message with only ToolSearch in transcript → AskUserQuestion (strategy 1)', async () => {
+      writeTranscript([
+        { type: 'tool_use', name: 'ToolSearch', input: { query: 'select:AskUserQuestion' } },
+      ]);
+      runHook({ payload: { message: 'Claude needs your permission to use AskUserQuestion' } });
+      await sleep(300);
+      const args = readNotifierArgs();
+      const idx = args.indexOf('-message');
+      assert.equal(args[idx + 1], 'AskUserQuestion');
+    });
+
+    // Strategy 2: generic .message (real AskUserQuestion case — Claude Code sends
+    // "Claude Code needs your attention" with no tool name). Fall back to reading
+    // the last assistant message's tool_use from the transcript.
+    test('AskUserQuestion with generic message, last transcript entry is AskUserQuestion → AskUserQuestion (strategy 2)', async () => {
+      writeTranscript([
+        { type: 'tool_use', name: 'ToolSearch', input: { query: 'select:AskUserQuestion' } },
+        { type: 'tool_use', name: 'AskUserQuestion', input: { questions: [] } },
+      ]);
+      runHook({ payload: { message: 'Claude Code needs your attention' } });
+      await sleep(300);
+      const args = readNotifierArgs();
+      const idx = args.indexOf('-message');
+      assert.equal(args[idx + 1], 'AskUserQuestion');
+    });
+
+    // Strategy 2: ToolSearch is excluded — it is always a schema-load intermediary.
+    test('generic message, last transcript entry is ToolSearch → falls back to raw message', async () => {
+      writeTranscript([
+        { type: 'tool_use', name: 'ToolSearch', input: { query: 'select:AskUserQuestion' } },
+      ]);
+      runHook({ payload: { message: 'Claude Code needs your attention' } });
+      await sleep(300);
+      const args = readNotifierArgs();
+      const idx = args.indexOf('-message');
+      assert.equal(args[idx + 1], 'Claude Code needs your attention');
+    });
+
+    test('tool name from message takes precedence over last transcript tool_use', async () => {
+      // Transcript ends with Read, but payload says permission is for Bash.
+      // Should show Bash, and use the most recent Bash tool_use for detail.
+      writeTranscript([
+        { type: 'tool_use', name: 'Bash', input: { command: 'ls /tmp' } },
+        { type: 'tool_use', name: 'Read', input: { file_path: '/a/b.txt' } },
+      ]);
+      runHook({ payload: { message: 'Claude needs your permission to use Bash' } });
+      await sleep(300);
+      const args = readNotifierArgs();
+      const idx = args.indexOf('-message');
+      assert.equal(args[idx + 1], 'Bash: ls /tmp');
     });
 
     test('CLAUDE_CODE_ENTRYPOINT=desktop suppresses the notification', async () => {
