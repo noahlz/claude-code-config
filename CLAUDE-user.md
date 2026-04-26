@@ -12,3 +12,6 @@
 | Run `npm install`/`npm build` or debug Node failures | [`./references/npm.md`](./references/npm.md) |
 
 Skipping a required read is a failure mode, not a shortcut.
+
+# Rules for Bash
+- Wrap long-running commands in `timeout`. Scale duration to the command: lint ~30s, full build ~120s. Example: `timeout 120 npm run build`
