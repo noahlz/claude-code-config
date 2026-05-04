@@ -68,6 +68,8 @@ format_body() {
 
     if [ -n "$last_tool" ]; then
       case "$tool_name" in
+        ExitPlanMode)
+          echo "Plan ready"; return 0 ;;
         Bash)
           detail=$(echo "$last_tool" | jq -r '.input.command // ""') ;;
         Read|Write|Edit|NotebookEdit)
