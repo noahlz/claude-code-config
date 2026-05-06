@@ -19,10 +19,7 @@
 
 **Log inspection:** Read `test.log` only if exit code ≠ 0. Don't read on success.
 
-**Speed requirement:** Test execution must complete in 10–30 seconds (max 1 minute).
-- **Do:** Use `timeout` when running test commands in Bash.
-- **If timeout fires:** Surface to user and await their next steps.
-- **If user confirms long-running tests:** Adjust timeout accordingly and document.
+**Speed requirement:** Tests must complete in 10–30 seconds (max 1 minute). Use `timeout`. If it fires, surface to user. If user confirms long-running tests, adjust accordingly.
 
 ## Test Debugging
 
