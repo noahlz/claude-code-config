@@ -38,7 +38,7 @@ Ask the user before creating worktrees. Use isolated worktrees for parallel suba
 
 ### Mechanical tasks — skip both spec review and code quality review
 
-Tasks that only connect existing pieces without introducing new logic: find-replace renames, comment-only edits, adding entries to a registry, wiring a component to an existing interface, updating imports after a rename. Verify with `grep` instead.
+Tasks that only connect existing pieces without introducing new logic (e.g. find-replace renames, updating imports). Verify with `grep` instead.
 
 ### Logic changes — require spec review. Structural changes — require code quality review.
 

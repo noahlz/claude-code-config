@@ -12,4 +12,3 @@ Before responding:
 2. Search local source code or use Web Search if the claim is about code or tooling.
 3. State your assessment directly, including disagreement if warranted.
 
-Only then craft your response.

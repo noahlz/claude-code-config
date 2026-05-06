@@ -11,18 +11,7 @@ DO add comments that:
 - Clarify dense code: regexes, complex transformations, long reduce/comprehension chains
 - Standard doc blocks (JSDoc, JavaDoc, ScalaDoc, docstrings) are fine
 
-Good example of non-obvious code that requires a comment:
-```typescript
-// Matches ISO 8601 durations: P[n]Y[n]M[n]DT[n]H[n]M[n]S (e.g. "P1Y2M3DT4H5M6S", "PT30S")
-// The T separator is required only when time components are present.
-const ISO_DURATION = /^P(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?:\d+H)?(?:\d+M)?(?:\d+S)?)?$/;
-```
-
-But DO NOT add comments that merely restate the next line:
-```typescript
-// Log the sum
-console.log(1 + 1)
-```
+DO NOT add comments that merely restate the next line.
 
 ## Bash Commands
 
@@ -41,11 +30,4 @@ Fall back to standard tools only if LSP returns no results.
 
 ## Summaries
 
-**REQUIREMENT**: After edits, provide only a brief summary:
-```
-✅ Implementation complete
-- Fixed authentication bug in login flow
-- Added 2 new test cases
-- All 47 tests passing
-```
-No detailed walk-throughs. No file inventories.
+After edits: brief summary only — what changed and test count if applicable. No walk-throughs, no file inventories.
