@@ -44,7 +44,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/post-exit-plan-mode.sh"
+            "command": "~/.claude/hooks/post-exit-plan-mode.sh",
+            "continueOnBlock": true
           }
         ]
       }
