@@ -5,7 +5,7 @@
 Include this block verbatim at the top of every subagent prompt:
 
 > **Subagent constraints — follow these exactly:**
-> - Do NOT run `git commit`. The user commits manually.
+> - Read-only git (`status`, `diff`, `log`, `show`) is always fine. Inside a worktree you may `git add`/`git commit` to that worktree's branch; outside one, do not commit. Never `push`, `merge`, `rebase`, `reset --hard`, or `clean -fdx`, and never make the closing commit — the user does that.
 > - Write tests alongside implementation code, not separately.
 > - Cap your work at 3–4 discrete steps. If you received more, stop and report back.
 
