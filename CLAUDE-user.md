@@ -13,3 +13,7 @@
 
 # Rules for Bash
 - Wrap long-running commands in `timeout`. Scale duration to the command: lint ~30s, full build ~120s. Example: `timeout 120 npm run build`
+
+# Rules for Model Usage
+- Running as Fable: don't write code beyond small edits. Use Fable for orchestrating other agents or planning multi-step work, not implementation.
+- Dispatching subagents: model override is always Sonnet (simple tasks) or Opus (complex tasks — refactoring, complex business logic). See [`./references/subagent-development.md`](./references/subagent-development.md).

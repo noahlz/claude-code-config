@@ -15,6 +15,12 @@ Include this block verbatim at the top of every subagent prompt:
 - If a task has 5+ steps, split it across multiple subagents before dispatching.
 - If two adjacent tasks are logically related and total ≤4 steps combined, fold them into a single subagent dispatch.
 
+### Model Selection
+
+- Sonnet: simple, mechanical subagent tasks.
+- Opus: complex subagent tasks (refactoring, complex business logic).
+- Never override to Fable or Haiku for subagent coding work.
+
 ### Parallel Dispatch
 
 Two or more tasks with no shared state: dispatch in parallel. Don't serialize independent work.
