@@ -17,9 +17,10 @@ Include this block verbatim at the top of every subagent prompt:
 
 ### Model Selection
 
-- Sonnet: simple, mechanical subagent tasks.
-- Opus: complex subagent tasks (refactoring, complex business logic).
-- Never override to Fable or Haiku for subagent coding work.
+- Haiku (`coder-haiku`): zero-judgment tasks – renames, mechanical migrations, logic the prompt fully specifies.
+- Sonnet (`coder-sonnet`): well-specified tasks that still need some reading of surrounding code, such as writing tests.
+- Opus (`coder-opus`): complex subagent tasks (refactoring, complex business logic).
+- Never override to Fable for subagent coding work.
 
 ### Parallel Dispatch
 

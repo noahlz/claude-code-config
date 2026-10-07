@@ -10,5 +10,5 @@ Shell and Markdown files are symlinked into `~/.claude`. `settings.hooks.json` i
 
 ## Maintenance
 
-After adding, removing, or renaming files in `hooks/`, `rules/`, `references/`, or `output-styles/`, remind user to run `./install.sh`.
+After adding, removing, or renaming files in `hooks/`, `rules/`, `references/`, `output-styles/`, or `agents/`, remind user to run `./install.sh`.
 

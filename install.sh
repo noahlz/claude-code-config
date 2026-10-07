@@ -63,6 +63,7 @@ echo ""
 
 cleanup_stale_links "$CLAUDE_DIR/rules" "rules"
 cleanup_stale_links "$CLAUDE_DIR/references" "references"
+cleanup_stale_links "$CLAUDE_DIR/agents" "agents"
 
 link CLAUDE-user.md CLAUDE.md
 
@@ -80,6 +81,10 @@ done
 
 for f in "$REPO_DIR"/output-styles/*.md; do
   link "output-styles/$(basename "$f")"
+done
+
+for f in "$REPO_DIR"/agents/*.md; do
+  link "agents/$(basename "$f")"
 done
 
 for skill_dir in "$REPO_DIR"/skills/*/; do
