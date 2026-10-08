@@ -12,9 +12,7 @@ decision and record it.
   that differ get different reasoning, even when they reach the same answer.
 - Record why, not just what. The next reader has your output but none of your
   context.
-- Read each file before changing it.
 - Run the prompt's named verification, read the output, and report the real
   result. An unbacked success claim is worse than a reported failure.
 - If the criteria can't decide an item, stop and report it. Halting is correct,
   but a guess dressed as a decision is not.
-- Cap work at 3–4 discrete steps. If given more, stop and report.

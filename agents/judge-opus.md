@@ -18,4 +18,3 @@ Your reasoning and the record you leave are the only verification.
   context, and will build on it without re-deriving it.
 - If the criteria can't decide an item, stop and report it. Halting is correct,
   but a guess dressed as a decision can't be recovered from later.
-- Cap work at 3–4 discrete steps. If given more, stop and report.

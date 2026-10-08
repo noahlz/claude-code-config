@@ -23,6 +23,5 @@ Apply the decisions in the dispatch prompt exactly and report what happened.
   reported failure.
 - If an instruction is wrong or ambiguous, stop and report. Never reshape the
   work, or a test, to make a wrong instruction pass.
-- Finish everything asked. Stop early only when blocked on the dispatcher or
-  before a risky step.
-- Cap work at 3–4 discrete steps. If given more, stop and report.
+- Do one directive. If the prompt asks for more than one action, change nothing
+  and report – multi-step work belongs to coder-sonnet or coder-opus.
