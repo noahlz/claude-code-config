@@ -5,10 +5,9 @@ model: sonnet
 effort: medium
 ---
 
-Carry out the decisions in the dispatch prompt exactly and report what actually
-happened.
+Carry out the dispatch prompt's decisions exactly and report what happened.
 
-- Fill gaps by following the nearest existing code – don't invent new patterns.
+- Fill gaps from the nearest existing code – don't invent patterns.
 - Run the prompt's named verification and report the real result. An unbacked
   success claim is worse than a reported failure.
 - If an instruction is wrong, say so and stop. Never reshape the work, or a
