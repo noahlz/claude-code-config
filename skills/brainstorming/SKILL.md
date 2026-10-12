@@ -10,8 +10,9 @@ MIT License – see LICENSE in this directory.
 
 Changes: the architectural path ends at an approved spec, then implementation
 via subagents (no writing-plans handoff, no plan mode). Specs go to
-`.claude/plans/` and are not auto-committed. Visual companion and spec
-reviewer prompt removed.
+`.claude/plans/` and are not auto-committed. Visual companion replaced
+with the Claude Desktop built-in browser when available. Spec reviewer
+prompt removed.
 -->
 
 # Brainstorming Ideas Into Designs
@@ -231,6 +232,12 @@ is the whole process.
 - Ask after each section whether it looks right so far
 - Cover: architecture, components, data flow, error handling, testing
 - Be ready to go back and clarify if something doesn't make sense
+
+**Showing visuals:**
+
+- Use a visual only when the question is visual: a mockup, layout, or diagram your partner would understand better by seeing than reading. A question about a UI topic is not automatically visual.
+- If built-in browser tools (`mcp__Claude_Browser__*`) are available (Claude Desktop): load the `built-in-browser` skill, write a self-contained HTML file to the scratchpad, and open it in the browser pane. One question per page. Your partner answers in chat.
+- Otherwise: show ASCII mockups via `AskUserQuestion` option `preview` fields, or inline in chat.
 
 **Design for isolation and clarity:**
 
