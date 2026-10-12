@@ -2,6 +2,8 @@
 
 ## Dispatch Rules
 
+**NEVER write code from the main chat during spec implementation** – initial implementation, review-loop fixes, or "quick" fixes. Dispatch a `coder-*` subagent. **Exception:** ad-hoc user code requests outside spec implementation.
+
 Include this block verbatim at the top of every subagent prompt:
 
 > **Subagent constraints — follow these exactly:**
@@ -52,5 +54,8 @@ Ask the user before creating worktrees. Use isolated worktrees for parallel suba
 Tasks that only connect existing pieces without introducing new logic (e.g. find-replace renames, updating imports). Verify with `grep` instead.
 
 ### Logic changes — require spec review. Structural changes — require code quality review.
+
+- Combine spec + quality review into one pass for small modules (under ~400 lines, 3 or fewer files).
+- **Bundle all review fixes into a single subagent dispatch** with all issues listed. Never fix some issues manually and farm out the rest.
 
 - Reference [`references/typescript.md`](typescript.md) when working in TypeScript projects.

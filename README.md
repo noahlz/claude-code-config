@@ -14,6 +14,20 @@ My [Claude Code](https://claude.ai/code) configuration, shared publicly for refe
 
 **Terse output style** Use flat language, avoid synchopatic filler phrases ("Great idea!", "You're absolutely right!"). Summarize edits concisely. Less noise, direct feedback.
 
+## Skills
+
+### `brainstorming` (adapted from Superpowers)
+
+[`skills/brainstorming`](./skills/brainstorming) is adapted from the `brainstorming` skill in [Superpowers](https://github.com/obra/superpowers) v6.4.1 by Jesse Vincent, used under the [MIT License](./skills/brainstorming/LICENSE).
+
+**Why:** I used Superpowers for its brainstorm → spec flow, but with current models the rest of it – implementation plans, plan execution, the session-start hook that pushes a skill check on every turn – is overhead. Claude can break an approved spec into tasks and drive subagents directly. So I dropped the plugin and kept only brainstorming.
+
+**Changes from upstream:**
+
+- The architectural path ends at an approved spec, then goes straight to implementation via subagents. No `writing-plans` handoff, no plan mode.
+- Specs are saved to `.claude/plans/` and not auto-committed.
+- Visual companion (browser server) and spec reviewer prompt removed.
+
 ## Hooks
 
 Behaviors enforced by hooks:
